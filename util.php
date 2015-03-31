@@ -1,7 +1,8 @@
 <?php
-	
+	header("Content-Type: text/html;charset=utf-8");
 	function connect() {
-		$mysql = mysqli_connect("localhost","root","","reproma");
+		$mysql = mysqli_connect("localhost","root","","ProyectoDAW2");
+        mysqli_set_charset($mysql,'utf8');
 		return $mysql;
 	}
 	
@@ -60,10 +61,9 @@ function regresa($query)
 		$mysql = connect();
 		
 		$results = $mysql->query($query);
-		
         
-        
-		echo "\t<select onkeyup=\"poner(this.value)\" name=\"" .$name ."\">\n";
+		echo "\t<select onchange=\"poner(this.value)\" id=\"".$name."\" name=\"" .$name ."\">\n";
+        echo "\t\t <option value=0 name=0> --Selecciona uno-- </option>\n ";
 		while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) {
 			echo "\t\t<option id=\"" .$row[0] ."\" name=\"" .$row[0] ."\" value=\"" .$row[0] ."\">" .$row[1] ."</option>\n"; 
           
@@ -121,6 +121,27 @@ function query($query)
    return $array;
 }
 
+
+
+function insertRecord($matricula,$password)
+{
+     $mysql=createConnection();
+// insert command specification 
+$query='INSERT INTO alumno (MATRICULA,PASSWORD) VALUES (?,?) ';
+// Preparing the statement 
+if (!($statement = $mysql->prepare($query))) {
+    die("Preparation failed: (" . $mysql->errno . ") " . $mysql->error);
+}
+// Binding statement params    
+if (!$statement->bind_param("ss",$matricula, $password)) {
+    die("Parameter vinculation failed: (" . $statement->errno . ") " . $statement->error); 
+}
+ // Executing the statement
+ if (!$statement->execute()) {
+    die("Execution failed: (" . $statement->errno . ") " . $statement->error);
+  } 
+     closeConnection($mysql);
+}
 
 	
 ?>
