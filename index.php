@@ -88,8 +88,8 @@
                     <div class="container-fluid">
                       <a class="small" data-toggle="modal" role="button" href="#forgotPasswordModal">Forgot username or password?</a>
                    </div>    
-                </div>
-         </li>
+              </div>
+          </li>
        </ul>
     </div>
     <!-- /.navbar-collapse --> 
@@ -101,7 +101,7 @@
 <header>
   <div class="container">
     <div class="intro-text">
-      <div class="intro-lead-in">Bienvenido al sistema de Retroalimentacion a Profesores y Materias</div>
+      <div class="intro-lead-in">Bienvenido al sistema de Retroalimentación a Profesores y Materias</div>
       <div class="intro-heading">REPOMA</div>
       <a href="#profesores" class="page-scroll btn btn-xl"><i class="fa fa-angle-double-down fa-4x"></i></a> </div>
   </div>
