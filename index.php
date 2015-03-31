@@ -42,10 +42,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li class="hidden"> <a href="#page-top"></a> </li>
-        <li> <a class="page-scroll" href="#services">Services</a> </li>
-        <li> <a class="page-scroll" href="#portfolio">Portfolio</a> </li>
-        <li> <a class="page-scroll" href="#contact">Contact</a> </li>
+        <li class="hidden"> <a href="#page-top"></a></li>
+        <li> <a class="page-scroll" href="#profesores">Profesores</a> </li>
+        <li> <a class="page-scroll" href="#cursos">Cursos</a> </li>
+        <li> <a class="page-scroll" href="#contact">Contactanos</a> </li>
         
         <!-- Login -->
         <li class="dropdown"> 
@@ -103,13 +103,13 @@
     <div class="intro-text">
       <div class="intro-lead-in">Bienvenido al sistema de Retroalimentacion a Profesores y Materias</div>
       <div class="intro-heading">REPOMA</div>
-      <a href="#services" class="page-scroll btn btn-xl"><i class="fa fa-angle-double-down fa-4x"></i></a> </div>
+      <a href="#profesores" class="page-scroll btn btn-xl"><i class="fa fa-angle-double-down fa-4x"></i></a> </div>
   </div>
   </div>
 </header>
 
 <!-- Profesores -->
-<section id="services" align="center">
+<section id="profesores" align="center">
   
           <h3>Profesores</h3>
               <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
@@ -151,7 +151,7 @@
 </section>
 
 <!-- Cursos-->
-<section id="portfolio" class="bg-light-gray" align="center">
+<section id="cursos" class="bg-light-gray" align="center">
       <h3>Cursos</h3>
         <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
             <table class="table table-bordered" id="sample_2">
