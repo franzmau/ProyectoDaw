@@ -8,18 +8,30 @@
  * Copyright 2013, Codrops
  * http://www.codrops.com
  */
-var cbpAnimatedHeader = (function() {
 
+
+window.addEventListener("scroll", function(event){
+	var elElemento=document.getElementById('repoma');
+    if (this.scrollY >= 300){
+        elElemento.style.visibility ='visible';
+
+    }else{
+    	elElemento.style.visibility ='hidden';
+    }
+}, false);
+
+var cbpAnimatedHeader = (function() {
 	var docElem = document.documentElement,
 		header = document.querySelector( '.navbar-default' ),
 		didScroll = false,
 		changeHeaderOn = 300;
 
 	function init() {
+
 		window.addEventListener( 'scroll', function( event ) {
 			if( !didScroll ) {
 				didScroll = true;
-				setTimeout( scrollPage, 250 );
+				setTimeout( scrollPage, 250);
 			}
 		}, false );
 	}
@@ -31,6 +43,8 @@ var cbpAnimatedHeader = (function() {
 		}
 		else {
 			classie.remove( header, 'navbar-shrink' );
+            
+            			
 		}
 		didScroll = false;
 	}
@@ -40,5 +54,6 @@ var cbpAnimatedHeader = (function() {
 	}
 
 	init();
+	repomaS();
 
 })();

@@ -736,5 +736,13 @@ left: 50%;
 position: absolute;
 z-index: 99;
 }
+
+table,tbody, tr, td, thead, th {
+  border:#536270  1px solid !important;
+}
+
+   
+
+
     
 

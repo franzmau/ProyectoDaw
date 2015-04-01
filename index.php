@@ -37,19 +37,19 @@
     <div class="navbar-header page-scroll">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
     </div>
-    <span class="navbar-header page-scroll"><a class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span> 
-    
+
+      <div id="repoma" style="visibility:hidden"><span class="navbar-header page-scroll"><a style="left:100%" class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span></div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li class="hidden"> <a href="#page-top"></a></li>
         <li> <a class="page-scroll" href="#profesores">Profesores</a> </li>
         <li> <a class="page-scroll" href="#cursos">Cursos</a> </li>
-        <li> <a class="page-scroll" href="#contact">Contactanos</a> </li>
+
         
         <!-- Login -->
         <li class="dropdown"> 
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard"> Login or Signup<i class="fa fa-lg fa-user"></i></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup<i class="fa fa-lg fa-user"></i></a>
                    <div class="dropdown-menu">
 
                     <form id="formLogin" class="form container-fluid">
@@ -99,7 +99,9 @@
 
 <!-- Header -->
 <header>
+
   <div class="container">
+   <img style="z-index:2000 !important" src="img/tec.png" align="left">
     <div class="intro-text">
       <div class="intro-lead-in">Bienvenido al sistema de Retroalimentación a Profesores y Materias</div>
       <div class="intro-heading">REPOMA</div>
@@ -110,15 +112,15 @@
 
 <!-- Profesores -->
 <section id="profesores" align="center">
-  
-          <h3>Profesores</h3>
+          <h1>Profesores</h1>
+            </br></br>
               <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
-                <table class="table table-bordered" id="sample_1">
+                <table class="table table-bordered table-hover" id="sample_1" style="text-align:center">
                   <thead>
                     <tr>
-                       <th>Nombre</th>
-                       <th># Evaluaciones</th>
-                       <th>Promedio</th>
+                       <th style="text-align:center">Nombre</th>
+                       <th style="text-align:center"># Evaluaciones</th>
+                       <th style="text-align:center">Promedio</th>
                      </tr>
                   </thead>
                   
@@ -135,8 +137,8 @@
                       {
                       echo '<tr>';
                       echo '<td>'.$row[0].'</td>';
-                      echo '<td>'.$row[2].'</td>';
-                      echo '<td>'.$row[1].'</td>';
+                      echo '<td><span class="badge">'.$row[2].'</span></td>';
+                      echo '<td><span class="label label-success">'.$row[1].'</span></td>';
                       echo '</tr>';
                       }
                       mysqli_free_result($results);
@@ -152,14 +154,15 @@
 
 <!-- Cursos-->
 <section id="cursos" class="bg-light-gray" align="center">
-      <h3>Cursos</h3>
+      <h1>Cursos</h1>
+      </br></br>
         <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
-            <table class="table table-bordered" id="sample_2">
-               <thead>
+            <table class="table table-bordered table-hover" id="sample_2" style="text-align:center">
+               <thead style="text-align:center !important">
                   <tr>
-                    <th>Curso</th>
-                    <th># Evaluaciones</th>
-                    <th>Maestro</th>
+                    <th style="text-align:center">Curso</th>
+                    <th style="text-align:center"># Evaluaciones</th>
+                    <th style="text-align:center">Promedio</th>
                   </tr>
                </thead>
                       
@@ -176,8 +179,8 @@
                         {
                         echo '<tr>';
                         echo '<td>'.$row[0].'</td>';
-                        echo '<td>'.$row[2].'</td>';
-                        echo '<td>'.$row[1].'</td>';
+                        echo '<td><span class="badge">'.$row[2].'</span></td>';
+                        echo '<td><span class="label label-success">'.$row[1].'</span></td>';
                         echo '</tr>';
                         }
                         mysqli_free_result($results);
@@ -208,7 +211,7 @@
    <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
              <h3 class="modal-title" id="myModalLabel" style="color:#0080FF;  font-size: 100%;font-weight: bold;text-align:center">Elige a tu profesor y el curso que imparte</h3>
               </div>
                <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
@@ -242,7 +245,7 @@
    <div class="modal-dialog">
        <div class="modal-content">
            <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title" id="myModalLabel" style="color:#0080FF;font-size: 100%;font-weight: bold;text-align:center">Evaluación</h4>
                 </div>
                  <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
