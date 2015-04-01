@@ -1,6 +1,7 @@
 <?php
   include_once("util.php");
   $p=0;
+  session_start();
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +53,7 @@
                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard"> Login or Signup<i class="fa fa-lg fa-user"></i></a>
                    <div class="dropdown-menu">
 
-                    <form id="formLogin" class="form container-fluid">
+                    <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
                       <br>
                       <div class="form-group">
                       <input class="form-control" name="username" id="username" type="text" placeholder="Username" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Enter your username" required="">
@@ -60,27 +61,46 @@
                       <div class="form-group">  
                       <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="">
                       </div>  
-                      <button type="button" id="btnLogin" class="btn btn-block">Login</button>
+                      <button type="submit" name="login" id="btnLogin" class="btn btn-block">Login</button>
                       <hr>
+                      <?php if(isset($_POST['username']) && isset($_POST['password']) && !isset($_POST['uname']) && !isset($_POST['passwd']) && !isset($_POST['verify']) && !isset($_POST['email'])){
+                        $u=substr(strtolower($_POST['username']),0,15);
+                        $pa=substr(strtolower($_POST['password']),0,15);
+                         $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
+                      $c = curl_init($url);
+                      $response = curl_exec($c);
+                      curl_close($c);
+                      } 
+                      ?>
                       <a href="#" title="Fast and free sign up!" id="btnNewUser" data-toggle="collapse" data-target="#formRegister" class="small">New User? Sign-up..</a>
                     </form>
 
-                    <form id="formRegister" class="form collapse container-fluid">
+                    <form id="formRegister" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" name="signin" class="form collapse container-fluid">
                       <br>
                       <div class="form-group">
                       <input class="form-control" name="email" id="inputEmail" type="email" placeholder="Email" required="">
                       </div>
                       <div class="form-group">
-                      <input class="form-control" name="username" id="inputUsername" type="text" placeholder="Username" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Choose a username" required="">
+                      <input class="form-control" name="uname" id="inputUsername" type="text" placeholder="Username" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Choose a username" required="">
                       </div>
                       <div class="form-group">
-                      <input class="form-control" name="password" id="inputpassword" type="password" placeholder="Password" required="">
+                      <input class="form-control" name="passwd" id="inputpassword" type="password" placeholder="Password" required="">
                       </div>
                       <div class="form-group">
                       <input class="form-control" name="verify" id="inputVerify" type="password" placeholder="Password (again)" required="">
                       </div>
                       <div class="form-group">
-                      <button type="button" id="btnRegister" class="btn btn-block">Sign Up</button>
+                      <button type="submit" id="btnRegister" class="btn btn-block">Sign Up</button>
+                      <?php 
+                      if(isset($_POST['uname']) && isset($_POST['passwd']) && isset($_POST['verify']) && isset($_POST['email'])){
+                        $u=substr(strtolower($_POST['uname']),0,15); $pa=substr(strtolower($_POST['passwd']),0,15);
+                        $vfy=substr(strtolower($_POST['verify']),0,15); $mail=substr(strtolower($_POST['email']),0,15);
+                         $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/insertaUsuario/$u/$pa/$vfy/$mail"; //Route to the REST web service
+                      $c = curl_init($url);
+                      $response = curl_exec($c);
+                      curl_close($c);
+                      }
+                       ?>
                       </div>
                     </form>
 
@@ -110,7 +130,7 @@
 
 <!-- Profesores -->
 <section id="profesores" align="center">
-  
+
           <h3>Profesores</h3>
               <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
                 <table class="table table-bordered" id="sample_1">
@@ -123,25 +143,14 @@
                   </thead>
                   
                   <tbody>
-                      <!--Los profesores mejor calificados por curso-->
+                      <!--Los profesores mejor calificados por curso  usando servicios web-->
                       <?php
-                       desplegarProfesores();
 
-                      function desplegarProfesores(){
-                      $mysql=connect();
-                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor) FROM profesor p, evaluan e where p.id_maestro=e.idProfesor Group by e.idProfesor ORDER BY p.califiacion desc";
-                      $results = $mysql->query($query);
-                      while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                      {
-                      echo '<tr>';
-                      echo '<td>'.$row[0].'</td>';
-                      echo '<td>'.$row[2].'</td>';
-                      echo '<td>'.$row[1].'</td>';
-                      echo '</tr>';
-                      }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
-                      }
+                      $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/desplegarProfesores"; //Route to the REST web service
+                      $c = curl_init($url);
+                      $response = curl_exec($c);
+                      curl_close($c);
+                      
                       ?>
                   </tbody>
                 </table>
@@ -164,25 +173,13 @@
                </thead>
                       
                <tbody>
-                        <!--Los cursos mejor calificados por maestro -->
+                        <!--Los cursos mejor calificados por maestro usando servicios web-->
                         <?php
-                         desplegarCursos();
 
-                        function desplegarCursos(){
-                        $mysql=connect();
-                        $query="SELECT m.descripcion, m.calif, Count(e.idMateria) FROM materia m, evaluan e where m.clave=e.idMateria Group by e.idMateria ORDER BY m.calif desc";
-                        $results = $mysql->query($query);
-                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                        echo '<tr>';
-                        echo '<td>'.$row[0].'</td>';
-                        echo '<td>'.$row[2].'</td>';
-                        echo '<td>'.$row[1].'</td>';
-                        echo '</tr>';
-                        }
-                        mysqli_free_result($results);
-                        disconnect($mysql);
-                        }
+                      $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/desplegarCursos"; //Route to the REST web service
+                      $c = curl_init($url);
+                      $response = curl_exec($c);
+                      curl_close($c);
                         ?>
               </tbody>
             </table>
@@ -219,11 +216,13 @@
                   <tr>
                     <td><strong>Maestro:</strong></td>
                     <td colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></td>
+                    
                     </tr>
                   <tr>
-                    <td><strong>Materias</strong></td>
-                  <td colspan="2">  <div id="h" class="h" ><?php if(isset($p)){
-                   dropdown("Materia", "SELECT clave,descripcion FROM materia ");} ?>  </div></td> 
+                    <td><strong>Materias <?php echo $_SESSION['prof']; ?></strong></td>
+                  <td colspan="2">  <div id="h" class="h" ><?php /*if(isset($p)){ 
+                   dropdown("Materia", "SELECT m.clave, m.descripcion FROM imparten i, materia m WHERE m.clave=i.id_mat and i.id_prof='$p'"); /*"SELECT clave,descripcion FROM materia");}*/?>  </div></td> 
+                   
                   </tr>
                 </table>
               </form>
@@ -378,7 +377,7 @@
 
 <!-- Contact Form JavaScript --> 
 <script src="js/jqBootstrapValidation.js"></script> 
-<script src="js/contact_me.js"></script> 
+<!-- <script src="js/contact_me.js"></script>  -->
 
 <!-- Custom Theme JavaScript --> 
 <script src="js/five.js"></script>

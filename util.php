@@ -1,7 +1,7 @@
 <?php
 	header("Content-Type: text/html;charset=utf-8");
 	function connect() {
-		$mysql = mysqli_connect("localhost","root","","ProyectoDAW2");
+		$mysql = mysqli_connect("localhost","root","7797nebur","Proyecto daw");
         mysqli_set_charset($mysql,'utf8');
 		return $mysql;
 	}
@@ -125,9 +125,9 @@ function query($query)
 
 function insertRecord($matricula,$password)
 {
-     $mysql=createConnection();
+     $mysql = connect();
 // insert command specification 
-$query='INSERT INTO alumno (MATRICULA,PASSWORD) VALUES (?,?) ';
+$query='INSERT INTO usuario (matricula,usuario) VALUES (?,?) ';
 // Preparing the statement 
 if (!($statement = $mysql->prepare($query))) {
     die("Preparation failed: (" . $mysql->errno . ") " . $mysql->error);
@@ -140,8 +140,8 @@ if (!$statement->bind_param("ss",$matricula, $password)) {
  if (!$statement->execute()) {
     die("Execution failed: (" . $statement->errno . ") " . $statement->error);
   } 
-     closeConnection($mysql);
+     disconnect($mysql);
 }
-
+return true;
 	
 ?>

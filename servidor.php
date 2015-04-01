@@ -4,6 +4,7 @@ include_once("util.php");
 session_start();
 
 
+
 if (isset($_SESSION['id1']) || isset($_POST['agregar'])){
 if(isset($_POST['agregar'])) {
  $a = $_POST['profesor'];
@@ -63,5 +64,8 @@ echo '</script>';
 
 }
 
+if(isset($_POST['profesor'])){
+  $_SESSION['prof']=$_POST['profesor'];
+}
 
   ?> 

@@ -24,6 +24,9 @@
      }
      
         
+      var xmlhttp = new XMLHttpRequest();
+         xmlhttp.open("GET", "../index.php?q="+aux, true);
+         xmlhttp.send();
            
                 
             }
