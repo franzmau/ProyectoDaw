@@ -54,6 +54,4 @@ var cbpAnimatedHeader = (function() {
 	}
 
 	init();
-	repomaS();
-
 })();

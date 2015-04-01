@@ -171,7 +171,7 @@ fieldset[disabled] .btn-xl.active {
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-    background-color: #536270;
+    background-color: #fff;
 }
 
 .navbar-default .navbar-toggle:hover,
@@ -740,9 +740,6 @@ z-index: 99;
 table,tbody, tr, td, thead, th {
   border:#536270  1px solid !important;
 }
-
-   
-
 
     
 

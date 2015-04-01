@@ -51,10 +51,7 @@ function regresa($query)
    // var_dump($row);
 //printf ("%s \n",$row["nombre"]);
 
-    
-    
-	return $row["nombre"];	
-    
+	return $row["nombre"];	  
 }
 	
 	function dropdown($name, $query) {
@@ -66,7 +63,6 @@ function regresa($query)
         echo "\t\t <option value=0 name=0> --Selecciona uno-- </option>\n ";
 		while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) {
 			echo "\t\t<option id=\"" .$row[0] ."\" name=\"" .$row[0] ."\" value=\"" .$row[0] ."\">" .$row[1] ."</option>\n"; 
-          
 		}
 		echo "\t</select>\n";
 		

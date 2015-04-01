@@ -33,12 +33,9 @@
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container"> 
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header page-scroll">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-    </div>
 
-      <div id="repoma" style="visibility:hidden"><span class="navbar-header page-scroll"><a style="left:100%" class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span></div>
+
+  <div id="repoma" style="visibility:hidden"><span class="navbar-header page-scroll"><a style="left:100%" class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span></div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
@@ -119,6 +116,7 @@
                   <thead>
                     <tr>
                        <th style="text-align:center">Nombre</th>
+                       <th style="text-align:center">Departamento</th>
                        <th style="text-align:center">Evaluadores</th>
                        <th style="text-align:center">Promedio</th>
                      </tr>
@@ -131,12 +129,13 @@
 
                       function desplegarProfesores(){
                       $mysql=connect();
-                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor) FROM profesor p, evaluan e where p.id_maestro=e.idProfesor Group by e.idProfesor ORDER BY p.califiacion desc";
+                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor), d.dep FROM profesor p, evaluan e, departamento d where p.id_maestro=e.idProfesor and p.dep = d.id Group by e.idProfesor ORDER BY p.califiacion desc";
                       $results = $mysql->query($query);
                       while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                       {
                       echo '<tr>';
-                      echo '<td align="left"><i class="fa fa-lg fa-user" style="color:#536270"></i>   '.$row[0].'</td>';
+                      echo '<td align="left"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i> '.$row[0].'</strong></td>';
+                      echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
                       echo '<td><span class="badge">'.$row[2].'</span></td>';
                       echo '<td><span class="label label-success">'.$row[1].'</span></td>';
                       echo '</tr>';
@@ -163,6 +162,7 @@
                <thead style="text-align:center !important">
                   <tr>
                     <th style="text-align:center">Curso</th>
+                     <th style="text-align:center">Departamento</th>
                     <th style="text-align:center">Evaluadores</th>
                     <th style="text-align:center">Promedio</th>
                   </tr>
@@ -175,12 +175,13 @@
 
                         function desplegarCursos(){
                         $mysql=connect();
-                        $query="SELECT m.descripcion, m.calif, Count(e.idMateria) FROM materia m, evaluan e where m.clave=e.idMateria Group by e.idMateria ORDER BY m.calif desc";
+                        $query="SELECT m.descripcion, m.calif, Count(e.idMateria), d.dep FROM materia m, evaluan e, departamento d where m.clave=e.idMateria and d.id=m.dep Group by e.idMateria ORDER BY m.calif desc";
                         $results = $mysql->query($query);
                         while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                         {
                         echo '<tr>';
-                        echo '<td align="left"><i class="glyphicon glyphicon-book" style="color:#536270"></i>   '.$row[0].'</td>';
+                        echo '<td align="left"><strong><i class="glyphicon glyphicon-book" style="color:#536270"></i>   '.$row[0].'</strong></td>';
+                        echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
                         echo '<td><span class="badge">'.$row[2].'</span></td>';
                         echo '<td><span class="label label-success">'.$row[1].'</span></td>';
                         echo '</tr>';
