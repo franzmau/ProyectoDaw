@@ -46,10 +46,10 @@
         <li> <a class="page-scroll" href="#profesores">Profesores</a> </li>
         <li> <a class="page-scroll" href="#cursos">Cursos</a> </li>
 
-        
+
         <!-- Login -->
         <li class="dropdown"> 
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup<i class="fa fa-lg fa-user"></i></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup<i class="glyphicon glyphicon-user"></i></a>
                    <div class="dropdown-menu">
 
                     <form id="formLogin" class="form container-fluid">
@@ -101,7 +101,7 @@
 <header>
 
   <div class="container">
-   <img style="z-index:2000 !important" src="img/tec.png" align="left">
+   <img src="img/tec.png" align="left">
     <div class="intro-text">
       <div class="intro-lead-in">Bienvenido al sistema de Retroalimentación a Profesores y Materias</div>
       <div class="intro-heading">REPOMA</div>
@@ -119,7 +119,7 @@
                   <thead>
                     <tr>
                        <th style="text-align:center">Nombre</th>
-                       <th style="text-align:center"># Evaluaciones</th>
+                       <th style="text-align:center">Evaluadores</th>
                        <th style="text-align:center">Promedio</th>
                      </tr>
                   </thead>
@@ -136,7 +136,7 @@
                       while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                       {
                       echo '<tr>';
-                      echo '<td>'.$row[0].'</td>';
+                      echo '<td align="left"><i class="fa fa-lg fa-user" style="color:#536270"></i>   '.$row[0].'</td>';
                       echo '<td><span class="badge">'.$row[2].'</span></td>';
                       echo '<td><span class="label label-success">'.$row[1].'</span></td>';
                       echo '</tr>';
@@ -149,7 +149,9 @@
                 </table>
              </div>
           </div>
-        <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button>
+      <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button> 
+   </br>
+<div style="right:10%; position:relative"><img src="img/califica.png"><div>
 </section>
 
 <!-- Cursos-->
@@ -161,7 +163,7 @@
                <thead style="text-align:center !important">
                   <tr>
                     <th style="text-align:center">Curso</th>
-                    <th style="text-align:center"># Evaluaciones</th>
+                    <th style="text-align:center">Evaluadores</th>
                     <th style="text-align:center">Promedio</th>
                   </tr>
                </thead>
@@ -178,7 +180,7 @@
                         while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                         {
                         echo '<tr>';
-                        echo '<td>'.$row[0].'</td>';
+                        echo '<td align="left"><i class="glyphicon glyphicon-book" style="color:#536270"></i>   '.$row[0].'</td>';
                         echo '<td><span class="badge">'.$row[2].'</span></td>';
                         echo '<td><span class="label label-success">'.$row[1].'</span></td>';
                         echo '</tr>';
@@ -193,15 +195,10 @@
         </div>
        </div>
      <button style=" width:15%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+      <div style="left:10%; position:relative"><img src="img/califica2.png"></div>
     </div>
   </div> 
 </section>
-
-
-<section id="contact">
-
-</section>
-
 
 <!--=======SCRIPT POP-UP================================-->
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -216,23 +213,14 @@
               </div>
                <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
               
-                                
-              <form name="evaluar" method="POST" action="servidor.php">
-                <table class="tabla_forma" align="center">
-                  <tr>
-                    <td><h5>Profesor :  </h5></td>
-                    <td colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></td>
-                    </tr>
-                  <tr>
-                  </br>
-                    <td data-style="btn-primary"><h5>Materia :  </h5></td>
-                  <td colspan="2">  <div id="h" class="h" ><?php if(isset($p)){
-                   dropdown("Materia", "SELECT clave,descripcion FROM materia ");} ?>  </div></td> 
-                  </tr>
-                </table>
-              </form>
+               <form name="evaluar" method="POST" action="servidor.php">
+                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></div></div>
+                    </br>
+                    <div><h4 style="color: #536270">Materia</h4>
+                    <div colspan="2" id="h" class="h"><?php if(isset($p)){dropdown("Materia", "SELECT clave,descripcion FROM materia ");} ?></div></div>
+               </form>
 
-               </div>
+              </div>
            <div class="modal-footer">
          <div class="add" id="add"><input  type="submit" name="agregar" class="btn btn-primary" data-target="#Evaluar" data-dismiss="modal" class="btn btn-lg btn-success" data-toggle="modal" type="submit" id="agregar" name="agregar" value="Evaluar"></div>
        </div>
@@ -358,7 +346,7 @@
 <footer>
   <div class="container">
     <div class="row">
-      <div class="col-md-8"> <span class="copyright">2015 | Creada por Nancy, Francisco y Ruben.</span> </div>
+      <div class="col-md-8"> <span class="copyright">2015 | Creada por Nancy Espinosa, Mauricio Villanueva y Ruben Rivera.</span> </div>
       <div class="col-md-4">
     </div>
   </div>
