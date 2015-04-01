@@ -209,19 +209,20 @@
       <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-             <h4 class="modal-title" id="myModalLabel" style="color:#0080FF;  font-size: 100%;font-weight: bold;text-align:center">Elige a tu profesor y el curso que imparte</h4>
+             <h3 class="modal-title" id="myModalLabel" style="color:#0080FF;  font-size: 100%;font-weight: bold;text-align:center">Elige a tu profesor y el curso que imparte</h3>
               </div>
                <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
               
                                 
-              <form name="evaluar" method="POST" action="servidor.php" >
-                <table class="tabla_forma">
+              <form name="evaluar" method="POST" action="servidor.php">
+                <table class="tabla_forma" align="center">
                   <tr>
-                    <td><strong>Maestro:</strong></td>
+                    <td><h5>Profesor :  </h5></td>
                     <td colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></td>
                     </tr>
                   <tr>
-                    <td><strong>Materias</strong></td>
+                  </br>
+                    <td data-style="btn-primary"><h5>Materia :  </h5></td>
                   <td colspan="2">  <div id="h" class="h" ><?php if(isset($p)){
                    dropdown("Materia", "SELECT clave,descripcion FROM materia ");} ?>  </div></td> 
                   </tr>
