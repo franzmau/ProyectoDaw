@@ -220,8 +220,8 @@
                     </tr>
                   <tr>
                     <td><strong>Materias <?php echo $_SESSION['prof']; ?></strong></td>
-                  <td colspan="2">  <div id="h" class="h" ><?php /*if(isset($p)){ 
-                   dropdown("Materia", "SELECT m.clave, m.descripcion FROM imparten i, materia m WHERE m.clave=i.id_mat and i.id_prof='$p'"); /*"SELECT clave,descripcion FROM materia");}*/?>  </div></td> 
+                  <td colspan="2">  <div id="h" class="h" ><?php  
+                   dropdown("Materia", "SELECT clave,descripcion FROM materia");?>  </div></td> 
                    
                   </tr>
                 </table>
