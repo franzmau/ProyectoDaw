@@ -1,3 +1,6 @@
+ <link href="bootstrap.min.css" rel="stylesheet">
+                        <!-- <link href="/five.css" rel="stylesheet"> -->
+                        <script src="bootstrap.min.js"></script> 
 <?php
 /**
  * Step 1: Require the Slim Framework
@@ -9,9 +12,11 @@
  */
 require 'Slim/Slim.php';
 
+
 \Slim\Slim::registerAutoloader();
 
 include_once("../../../util.php");
+
 
 /**
  * Step 2: Instantiate a Slim application
@@ -235,76 +240,21 @@ $app->get('/insertaUsuario/:usr/:passwd/:vfy/:mail', function($user,$password,$v
                         }
                       }else{
                             echo '<script language="javascript">';
-                                echo 'alert("Las contraseñas no coinciden. Intente de nuevo")';
+                            echo '<div class="alert alert-danger">
+                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                    <strong>Alto!</strong> Las contraseñas no coinciden. Intente de nuevo.
+                        </div>';
+                                // echo 'alert("Las contraseñas no coinciden. Intente de nuevo")';
                                 echo '</script>';
                         }
 });
 
-$app->get('/helloss/:name', function($name){
-
-
-    echo "Hello, $name";
-
+ $app->get('/materias/:input', function($profe){
+                      
+    dropdown("Materia", "SELECT m.clave, m.descripcion FROM imparten i, materia m WHERE m.clave=i.id_mat and i.id_prof='$profe'");
+                    
 });
 
-$app->get('/100/:e', function($e){
-    $edad=100-$e;
-    echo "<html><link rel=\"stylesheet\" href=\"../css/answers.css\" type=\"text/css\" /><body>";
-    echo "Te faltan $edad años para llegar a los 100, suerte.";
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/ajax.html\">Return to main menu</a>";
-    echo "<br/>";
-    echo "</body></html>";
-});
-
-$app->get('/viejo/:e/:n', function($e, $n){
-    $edad=100-$e;
-    $name=$n;
-    echo "<html><link rel=\"stylesheet\" href=\"../css/answers.css\" type=\"text/css\" /><body>";
-    if($edad > 50){
-        echo "Muy bien $name todavia tienes una gran expectativa de vida, te faltan $edad años para llegar a los 100.";
-    }else{
-        echo "Muy bien $name haz llegado bastante lejos sigue así y en unos $edad años llegaras a los 100.";
-    }
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/ajax.html\">Return to main menu</a>";
-    echo "<br/>";
-    echo "</body></html>";
-});
-
-$app->get('/viejos/:e/:n', function($e, $n){
-    $edad=100-$e;
-    $name=$n;
-    if($edad > 50){
-        echo "Muy bien $name todavia tienes una gran expectativa de vida, te faltan $edad años para llegar a los 100.";
-    }else{
-        echo "Muy bien $name haz llegado bastante lejos sigue así y en unos $edad años llegaras a los 100.";
-    }
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/index.php\">Otra vez</a>";
-    echo "<br/>";
-
-});
-
-
-$app->get('/segundos/:semana/:dia/:hora/:minuto', function($semana, $dia, $hora, $minuto){
-
-    $res=0;
-    $res+=$semana*7*24*60*60;
-    $res+=$dia*24*60*60;
-    $res+=$hora*60*60;
-    $res+=$minuto*60;
-
-    echo "<html><link rel=\"stylesheet\" href=\"../css/answers.css\" type=\"text/css\" /><body>";
-    echo "has introducido ". $semana . " semanas ".$dia." dias ". $hora . " horas ".$minuto." minutos.";
-    echo "<br/>";
-    echo "En total son ".$res . " segundos";
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/index.php\">Return to main menu</a>";
-    echo "<br/>";
-    echo "</body></html>";
-
-});
 /**
  * Step 4: Run the Slim application
  *

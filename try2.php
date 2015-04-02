@@ -9,6 +9,11 @@
                       <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="">
                       </div>  
                       <button type="submit" name="login" id="btnLogin" class="btn btn-block">Login</button>
+                  <!--     <div class="alert alert-success">
+                          <a href="#" class="close" data-dismiss="alert">&times;</a>
+                          <strong>Warning!</strong> There was a problem with your network connection.
+                        </div> -->
+
                       <hr>
                       <?php if(isset($_POST['username']) && isset($_POST['password'])){
                         $u=$_POST['username'];
@@ -21,6 +26,9 @@
                       <a href="#" title="Fast and free sign up!" id="btnNewUser" data-toggle="collapse" data-target="#formRegister" class="small">New User? Sign-up..</a>
                     </form>
 
+                        <link href="css/bootstrap.min.css" rel="stylesheet">
+                        <link href="css/five.css" rel="stylesheet">
+                        <script src="js/bootstrap.min.js"></script> 
 
 </body>
 </html>
