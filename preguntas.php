@@ -1,10 +1,6 @@
 
 <?php
   include_once("util.php");
-   if(isset($_GET["sal"])){  
-
-}
-$p=0;
 ?>
 
 <!DOCTYPE html>
@@ -124,8 +120,8 @@ $prof=$_SESSION['prof'];
 </select>
   </li>
 
-  <li class="list-group-item">
-  <label> ¿Al momento de tener una duda  <?php echo 
+<li class="list-group-item">
+<label> ¿Al momento de tener una duda<?php echo 
 $prof=$_SESSION['prof'];
  ?> se preocupa por resolverla? </label>
 </br>
@@ -186,9 +182,6 @@ $MAT=$_SESSION['mat'];
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-<!--Opciones POP-UP--> 
-<script src="js/jv.js"></script>
-
 <!-- jQuery --> 
 <script src="js/jquery.js"></script> 
 
@@ -202,11 +195,6 @@ $MAT=$_SESSION['mat'];
 
 <!-- Custom Theme JavaScript --> 
 <script src="js/five.js"></script>
-
-<!-- Dyanmic-data-table--> 
-<script type="text/javascript" src="js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="js/DT_bootstrap.js"></script>
-<script src="js/dynamic-table.js"></script>
         
 </body>
 </html>
