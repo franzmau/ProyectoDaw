@@ -20,20 +20,12 @@ if(isset($_POST['agregar'])) {
     $_SESSION['mat']=$a2[0];
     
     
-    
   include("preguntas.php");
     
 }
 
 if(isset($_POST['evaluar'])){
-   /*echo "MIRA VALGO 1 vale".$_POST['uno'];
-    echo "Mira algo 2 vale".$_POST['dos'];
-    echo "Mira algo 3 vale".$_POST['tres'];
-    echo "Mira algo 4 vale".$_POST['cuatro'];
-    echo "Mira algo 5 vale".$_POST['cinco'];
-    echo "Mira algo 6 vale".$_POST['seis'];
-    echo "Mira algo 7 vale".$_POST['siete'];
-     */    
+  
  if($_POST['uno']!=0 && $_POST['dos']!=0 && $_POST['tres']!=0 && $_POST['cuatro']!=0 && $_POST['cinco']!=0 && $_POST['seis']!=0 && $_POST['siete']!=0){   
     
    

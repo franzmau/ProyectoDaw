@@ -1,7 +1,16 @@
 <?php
   include_once("util.php");
+
   $p=0;
-  session_start();
+
+   if(isset($_GET["sal"])){ 
+ 
+echo '<script language="javascript">';
+echo 'document.getElementById("mensaje").innerHTML = <div class="alert alert-success">Paragraph changed!</div>';
+echo '</script>';
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -31,26 +40,24 @@
 
 <body id="page-top" class="index">
 
+
+<div class="mensaje"></div>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container"> 
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header page-scroll">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-    </div>
-    <span class="navbar-header page-scroll"><a class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span> 
-    
+
+  <div id="repoma" style="visibility:hidden"><span class="navbar-header page-scroll"><a style="left:100% " class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span></div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li class="hidden"> <a href="#page-top"></a></li>
         <li> <a class="page-scroll" href="#profesores">Profesores</a> </li>
         <li> <a class="page-scroll" href="#cursos">Cursos</a> </li>
-        <li> <a class="page-scroll" href="#contact">Contactanos</a> </li>
-        
+
+
         <!-- Login -->
         <li class="dropdown"> 
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard"> Login or Signup<i class="fa fa-lg fa-user"></i></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup<i class="glyphicon glyphicon-user"></i></a>
                    <div class="dropdown-menu">
 
                     <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
@@ -108,8 +115,8 @@
                     <div class="container-fluid">
                       <a class="small" data-toggle="modal" role="button" href="#forgotPasswordModal">Forgot username or password?</a>
                    </div>    
-                </div>
-         </li>
+              </div>
+          </li>
        </ul>
     </div>
     <!-- /.navbar-collapse --> 
@@ -119,9 +126,11 @@
 
 <!-- Header -->
 <header>
+
   <div class="container">
+   <img src="img/tec.png" align="left">
     <div class="intro-text">
-      <div class="intro-lead-in">Bienvenido al sistema de Retroalimentacion a Profesores y Materias</div>
+      <div class="intro-lead-in">Bienvenido al sistema de Retroalimentación a Profesores y Materias</div>
       <div class="intro-heading">REPOMA</div>
       <a href="#profesores" class="page-scroll btn btn-xl"><i class="fa fa-angle-double-down fa-4x"></i></a> </div>
   </div>
@@ -131,51 +140,54 @@
 <!-- Profesores -->
 <section id="profesores" align="center">
 
-          <h3>Profesores</h3>
+          <h1>Profesores</h1>
+            </br></br>
               <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
-                <table class="table table-bordered" id="sample_1">
+                <table class="table table-bordered table-hover" id="sample_1" style="text-align:center">
                   <thead>
                     <tr>
-                       <th>Nombre</th>
-                       <th># Evaluaciones</th>
-                       <th>Promedio</th>
+                       <th style="text-align:center">Nombre</th>
+                       <th style="text-align:center">Departamento</th>
+                       <th style="text-align:center">Evaluadores</th>
+                       <th style="text-align:center">Promedio</th>
                      </tr>
                   </thead>
                   
                   <tbody>
                       <!--Los profesores mejor calificados por curso  usando servicios web-->
                       <?php
-
                       $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/desplegarProfesores"; //Route to the REST web service
                       $c = curl_init($url);
                       $response = curl_exec($c);
                       curl_close($c);
-                      
                       ?>
                   </tbody>
                 </table>
              </div>
           </div>
-        <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button>
+      <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button> 
+   </br>
+<div style="right:10%; position:relative"><img src="img/califica.png"><div>
 </section>
 
 <!-- Cursos-->
 <section id="cursos" class="bg-light-gray" align="center">
-      <h3>Cursos</h3>
+      <h1>Cursos</h1>
+      </br></br>
         <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
-            <table class="table table-bordered" id="sample_2">
-               <thead>
+            <table class="table table-bordered table-hover" id="sample_2" style="text-align:center">
+               <thead style="text-align:center !important">
                   <tr>
-                    <th>Curso</th>
-                    <th># Evaluaciones</th>
-                    <th>Maestro</th>
+                    <th style="text-align:center">Curso</th>
+                     <th style="text-align:center">Departamento</th>
+                    <th style="text-align:center">Evaluadores</th>
+                    <th style="text-align:center">Promedio</th>
                   </tr>
                </thead>
                       
                <tbody>
                         <!--Los cursos mejor calificados por maestro usando servicios web-->
                         <?php
-
                       $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/desplegarCursos"; //Route to the REST web service
                       $c = curl_init($url);
                       $response = curl_exec($c);
@@ -186,24 +198,33 @@
           </div>
         </div>
        </div>
-     <button style=" width:15%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+     <button style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+      <div style="left:10%; position:relative"><img src="img/califica2.png"></div>
     </div>
   </div> 
 </section>
 
-
-<section id="contact">
-
-</section>
-
-
-<!--=======SCRIPT POP-UP================================-->
-    <script src="https://code.jquery.com/jquery.js"></script>
-
-<!--=======POP-UP================================-->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+<!--=======POP-UP PROFESOR================================
+<div class="modal fade" id="Profesor" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
+          <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
+                <div id="cuerpo2">
+
+                </div>
+            </div>
+           <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+=======POP-UP MATERIA================================
+<div class="modal fade" id="Materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+<<<<<<< HEAD
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
              <h4 class="modal-title" id="myModalLabel" style="color:#0080FF;  font-size: 100%;font-weight: bold;text-align:center">Elige a tu profesor y el curso que imparte</h4>
@@ -215,151 +236,72 @@
                 <table class="tabla_forma">
                   <tr>
                     <td><strong>Maestro:</strong></td>
-                    <td colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></td>
+                    <td colspan="2" id="p" class="p" name="p" ><?php /*dropdown("profesor", "SELECT * FROM profesor");*/ ?></td>
                     
                     </tr>
                   <tr>
-                    <td><strong>Materias <?php echo $_SESSION['prof']; ?></strong></td>
-                  <td colspan="2">  <div id="h" class="h" ><?php  
-                   dropdown("Materia", "SELECT clave,descripcion FROM materia");?>  </div></td> 
+                    <td><strong>Materias <?php /*echo $_SESSION['prof']; */?></strong></td>
+                  <td colspan="2">  <div id="h" class="h" ><?php /* 
+                   dropdown("Materia", "SELECT clave,descripcion FROM materia");*/?>  </div></td> 
                    
                   </tr>
                 </table>
               </form>
+=======
+          <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
+                <div id="cuerpo">
+>>>>>>> 647a26af21a6b2bbc9fc2243d3fa00bfaa8a2bf6
 
-               </div>
+                </div>
+            </div>
            <div class="modal-footer">
-         <div class="add" id="add"><input  type="submit" name="agregar" class="btn btn-primary" data-target="#Evaluar" data-dismiss="modal" class="btn btn-lg btn-success" data-toggle="modal" type="submit" id="agregar" name="agregar" value="Evaluar"></div>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
        </div>
     </div>
   </div>
 </div>
 
-<!--=======POP-UP================================-->
-<div class="modal fade" id="Evaluar" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+=======POP-UP================================-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
-       <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-              <h4 class="modal-title" id="myModalLabel" style="color:#0080FF;font-size: 100%;font-weight: bold;text-align:center">Evaluación</h4>
-                </div>
-                 <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
-                
-                   <form action="servidor.php" method="POST" name="preguntas" >
-
-                    <?php
-                    echo "Estas a punto de evaluar a ".$_SESSION['prof'] ."<br> En la materia de ".$_SESSION['mat']." <br>";
-                    $prof=$_SESSION['prof'];
-                    $mat=$_SESSION['mat'];
-                    ?>
-                    <br>
-
-                          <label> Qué tan seguido consideras que <?php echo $prof=$_SESSION['prof'];?> ha explicado bien los temas y no existe alguna dificultad para entender un tema? </label>
-                          <br>
-                          <br>
-                          <select name="cuatro" >
-                          <option value="0">----Selecciona una----</option> 
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-                    <br>
-                    
-                          <label> Qué nivel de dificultad consideras que tiene <?php echo $prof=$_SESSION['mat'];?>  independientemente del profesor? </label>
-                          <br>
-                          <br>
-                          <select name="siete" >
-                          <option value="0">----Selecciona una----</option> 
-                            <option value="1">Muy Sencilla</option>
-                            <option value="2">Sencillo</option>
-                            <option value="3">Media</option>
-                            <option value="4">Difícil</option>
-                            <option value="5">Muy Difícil</option>
-                          </select>
-                    <br>
-                          <label> ¿Cuánta habilidad consideras tu que has desarrollado?</label>
-                          <br>
-                          <br>
-                          <select name="dos" >
-                            <option value="0">----Selecciona una----</option>
-                            <option value="1">Demasiada</option>
-                            <option value="2"> Considerable</option>
-                            <option value="3">Lo normal</option>
-                            <option value="4">Un poco </option>
-                            <option value="5"> Nada</option>
-                          </select>
-                    <br>
-                          <label>¿Consideras que  <?php echo $prof=$_SESSION['prof'];?> tiene <a href="#" title="Capacidad para idear, inventar o emprender cosas" class="tooltip"> <span title="Mas información">  iniciativa</span></a>  y compromiso contigo? </label>
-                          <br>
-                          <br>
-                          <select name="tres">
-                            <option value="0">---Selecciona una----</option>
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-                    <br>
-                          <label> ¿Al momento de tener una duda  <?php echo $prof=$_SESSION['prof'];?> se preocupa por ella? </label>
-                          <br>
-                          <br>
-                          <select name="uno">
-                            <option value="0">----Selecciona una----</option>
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-
-                    <br>
-                          <label>¿Consideras que  <?php echo $prof=$_SESSION['prof'];?> es consistenete con lo que dice y hace a lo largo del semestre?</label>
-                          <br>
-                          <br>
-                          <select name="cinco">
-                            <option value="0">----Seleccione una----</option>
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-                    <br>
-                          <label>¿Consideras  <?php echo $MAT=$_SESSION['mat'];?> Interesante?</label>
-                          <br>
-                          <br>
-                          <select name="seis">
-                            <option value="0">----Selecciona una----</option>
-                            <option value="1"> Muy interesante</option>
-                            <option value="2">Interesante</option>
-                            <option value="3">Neutra</option>
-                            <option value="4">muy poco interesante</option>
-                            <option value="5"> Nada interesante</option>
-                          </select>
-                          <br><br>
-                </form>
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+             <h3 class="modal-title" id="myModalLabel" style="color:#0080FF;  font-size: 100%;font-weight: bold;text-align:center">Elige a tu profesor y el curso que imparte</h3>
               </div>
-             <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-         <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-       </div>
+                <form name="evaluar" method="POST" action="servidor.php">
+                 <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
+        
+                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></div></div>
+                    </br>
+                    <div><h4 style="color: #536270">Materia</h4>
+                    <div colspan="2" id="h" class="h"><?php if(isset($p)){dropdown("Materia", "SELECT clave,descripcion FROM materia ");} ?></div></div>
+
+              </div>
+            <div class="modal-footer">
+         <div class="add" id="add"><input type="submit" id="agregar" name="agregar" class="btn btn-primary" value="Evaluar"></div>
+        </div>
+       </form>
     </div>
- </div>
+  </div>
 </div>
+
+<!--=======POP-UP================================-->
 
 <footer>
   <div class="container">
     <div class="row">
-      <div class="col-md-8"> <span class="copyright">2015 | Creada por Nancy, Francisco y Ruben.</span> </div>
+      <div class="col-md-8"> <span class="copyright">2015 | Creada por Nancy Espinosa, Mauricio Villanueva y Ruben Rivera.</span> </div>
       <div class="col-md-4">
     </div>
   </div>
 </footer>
 
 
+<!--=======SCRIPT POP-UP================================-->
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!--Opciones POP-UP--> 
 <script src="js/jv.js"></script>
@@ -376,7 +318,7 @@
 <script src="js/cbpAnimatedHeader.js"></script> 
 
 <!-- Contact Form JavaScript --> 
-<script src="js/jqBootstrapValidation.js"></script> 
+<!-- <script src="js/jqBootstrapValidation.js"></script>  -->
 <!-- <script src="js/contact_me.js"></script>  -->
 
 <!-- Custom Theme JavaScript --> 
@@ -385,7 +327,7 @@
 <!-- Dyanmic-data-table--> 
 <script type="text/javascript" src="js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="js/DT_bootstrap.js"></script>
-<script src="js/dynamic-table.js"></script>
+<script src="js/dynamic-table.js"></script> 
 
  </body>
 </html>

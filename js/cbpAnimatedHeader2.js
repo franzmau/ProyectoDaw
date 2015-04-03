@@ -12,7 +12,7 @@
 
 window.addEventListener("scroll", function(event){
 	var elElemento=document.getElementById('repoma');
-    if (this.scrollY >= 300){
+    if (this.scrollY >= 0){
         elElemento.style.visibility ='visible';
 
     }else{
@@ -24,7 +24,7 @@ var cbpAnimatedHeader = (function() {
 	var docElem = document.documentElement,
 		header = document.querySelector( '.navbar-default' ),
 		didScroll = false,
-		changeHeaderOn = 300;
+		changeHeaderOn = 0;
 
 	function init() {
 

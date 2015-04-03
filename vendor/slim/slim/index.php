@@ -32,6 +32,119 @@ $app = new \Slim\Slim();
  * is an anonymous function.
  */
 
+$app->get('/desplegarProfesores', function(){
+                      // $mysql=connect();
+
+                      // $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor) FROM profesor p, evaluan e where p.id_maestro=e.idProfesor Group by e.idProfesor ORDER BY p.califiacion desc";
+                      // $results = $mysql->query($query);
+                      // while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                      // {
+                      // echo '<tr>';
+                      // echo '<td>'.$row[0].'</td>';
+                      // echo '<td>'.$row[2].'</td>';
+                      // echo '<td>'.$row[1].'</td>';
+                      // echo '</tr>';
+                      // }
+                      // mysqli_free_result($results);
+                      // disconnect($mysql);
+    $mysql=connect();
+                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor), d.dep, p.id_maestro FROM profesor p, evaluan e, departamento d where p.id_maestro=e.idProfesor and p.dep = d.id Group by e.idProfesor ORDER BY p.califiacion desc";
+                      $results = $mysql->query($query);
+                      while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                      {
+                      $idProfesor=$row[4];
+                      echo '<tr>';
+                      echo '<td align="left"><strong><i class="fa fa-lg fa-user" style="color:#536270"><a href="#" title="Consideraciones" type="submit" data-target="#Profesor" data-toggle="modal" onclick="ElegirProfesor('.$idProfesor.')"></i>   '.$row[0].'</a></strong></td>';
+                      echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
+                      echo '<td><span class="badge">'.$row[2].'</span></td>';
+                      echo '<td><span class="label label-success">'.$row[1].'</span></td>';
+                      echo '</tr>';
+                      }
+
+                      mysqli_free_result($results);
+                      disconnect($mysql);
+                      
+
+});
+
+$app->get('/desplegarCursos', function(){
+                      // $mysql=connect();
+
+                      // $query="SELECT m.descripcion, m.calif, Count(e.idMateria) FROM materia m, evaluan e where m.clave=e.idMateria Group by e.idMateria ORDER BY m.calif desc";
+                      //   $results = $mysql->query($query);
+                      //   while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                      //   {
+                      //   echo '<tr>';
+                      //   echo '<td>'.$row[0].'</td>';
+                      //   echo '<td>'.$row[2].'</td>';
+                      //   echo '<td>'.$row[1].'</td>';
+                      //   echo '</tr>';
+                      //   }
+                      // mysqli_free_result($results);
+                      // disconnect($mysql);
+                        $mysql=connect();
+                        $query="SELECT m.descripcion, m.calif, Count(e.idMateria), d.dep, m.clave FROM materia m, evaluan e, departamento d where m.clave=e.idMateria and d.id=m.dep Group by e.idMateria ORDER BY m.calif desc";
+                        $results = $mysql->query($query);
+                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+                          $idMateria=$row[4];
+
+                        echo '<td align="left"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"><a href="#" title="Consideraciones" type="submit" data-target="#Materia" data-toggle="modal" onclick="ElegirMateria('.$idMateria.')"></i>   '.$row[0].'</a></strong></td>';
+                        echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
+                        echo '<td><span class="badge">'.$row[2].'</span></td>';
+                        echo '<td><span class="label label-success">'.$row[1].'</span></td>';
+                        echo '</tr>';
+                        }
+                        mysqli_free_result($results);
+                        disconnect($mysql);
+
+});
+
+$app->get('/validaUsuario/:usr/:passwd', function($user,$password){
+                      $mysql=connect();
+
+                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$user."'";
+                        $results = $mysql->query($query);
+                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+                            if($row[2]==$password){
+                                echo '<script language="javascript">';
+                                echo 'alert("Saludos usuario : '.$user.'")';
+                                echo '</script>';
+                            }else{
+                                echo '<script language="javascript">';
+                                echo 'alert("Contraseña equivocada")';
+                                echo '</script>';
+                            }
+                        }else{
+                            echo '<script language="javascript">';
+                                echo 'alert("Contraseña o Usuario equivocado")';
+                                echo '</script>';
+                        }
+                      mysqli_free_result($results);
+                      disconnect($mysql);
+
+});
+
+$app->get('/insertaUsuario/:usr/:passwd/:vfy/:mail', function($user,$password,$verify,$mail){
+                      
+
+                      if($password==$verify){
+                        if(insertRecord($user,$password)){
+                            echo '<script language="javascript">';
+                                echo 'alert("Ususario nuevo agregado")';
+                                echo '</script>';
+                        }
+                      }else{
+                            echo '<script language="javascript">';
+                                echo 'alert("Las contraseñas no coinciden. Intente de nuevo")';
+                                echo '</script>';
+                        }
+});
+
+
+
+
 // GET route
 $app->get(
     '/',
@@ -162,149 +275,6 @@ $app->delete(
     }
 );
 
-$app->get('/desplegarProfesores', function(){
-                      $mysql=connect();
-
-                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor) FROM profesor p, evaluan e where p.id_maestro=e.idProfesor Group by e.idProfesor ORDER BY p.califiacion desc";
-                      $results = $mysql->query($query);
-                      while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                      {
-                      echo '<tr>';
-                      echo '<td>'.$row[0].'</td>';
-                      echo '<td>'.$row[2].'</td>';
-                      echo '<td>'.$row[1].'</td>';
-                      echo '</tr>';
-                      }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
-
-});
-
-$app->get('/desplegarCursos', function(){
-                      $mysql=connect();
-
-                      $query="SELECT m.descripcion, m.calif, Count(e.idMateria) FROM materia m, evaluan e where m.clave=e.idMateria Group by e.idMateria ORDER BY m.calif desc";
-                        $results = $mysql->query($query);
-                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                        echo '<tr>';
-                        echo '<td>'.$row[0].'</td>';
-                        echo '<td>'.$row[2].'</td>';
-                        echo '<td>'.$row[1].'</td>';
-                        echo '</tr>';
-                        }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
-
-});
-
-$app->get('/validaUsuario/:usr/:passwd', function($user,$password){
-                      $mysql=connect();
-
-                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$user."'";
-                        $results = $mysql->query($query);
-                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                            if($row[2]==$password){
-                                echo '<script language="javascript">';
-                                echo 'alert("Saludos usuario : '.$user.'")';
-                                echo '</script>';
-                            }else{
-                                echo '<script language="javascript">';
-                                echo 'alert("Contraseña equivocada")';
-                                echo '</script>';
-                            }
-                        }else{
-                            echo '<script language="javascript">';
-                                echo 'alert("Contraseña o Usuario equivocado")';
-                                echo '</script>';
-                        }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
-
-});
-
-$app->get('/insertaUsuario/:usr/:passwd/:vfy/:mail', function($user,$password,$verify,$mail){
-                      
-
-                      if($password==$verify){
-                        if(insertRecord($user,$password)){
-                            echo '<script language="javascript">';
-                                echo 'alert("Ususario nuevo agregado")';
-                                echo '</script>';
-                        }
-                      }else{
-                            echo '<script language="javascript">';
-                                echo 'alert("Las contraseñas no coinciden. Intente de nuevo")';
-                                echo '</script>';
-                        }
-});
-
-$app->get('/helloss/:name', function($name){
-
-
-    echo "Hello, $name";
-
-});
-
-$app->get('/100/:e', function($e){
-    $edad=100-$e;
-    echo "<html><link rel=\"stylesheet\" href=\"../css/answers.css\" type=\"text/css\" /><body>";
-    echo "Te faltan $edad años para llegar a los 100, suerte.";
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/ajax.html\">Return to main menu</a>";
-    echo "<br/>";
-    echo "</body></html>";
-});
-
-$app->get('/viejo/:e/:n', function($e, $n){
-    $edad=100-$e;
-    $name=$n;
-    echo "<html><link rel=\"stylesheet\" href=\"../css/answers.css\" type=\"text/css\" /><body>";
-    if($edad > 50){
-        echo "Muy bien $name todavia tienes una gran expectativa de vida, te faltan $edad años para llegar a los 100.";
-    }else{
-        echo "Muy bien $name haz llegado bastante lejos sigue así y en unos $edad años llegaras a los 100.";
-    }
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/ajax.html\">Return to main menu</a>";
-    echo "<br/>";
-    echo "</body></html>";
-});
-
-$app->get('/viejos/:e/:n', function($e, $n){
-    $edad=100-$e;
-    $name=$n;
-    if($edad > 50){
-        echo "Muy bien $name todavia tienes una gran expectativa de vida, te faltan $edad años para llegar a los 100.";
-    }else{
-        echo "Muy bien $name haz llegado bastante lejos sigue así y en unos $edad años llegaras a los 100.";
-    }
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/index.php\">Otra vez</a>";
-    echo "<br/>";
-
-});
-
-
-$app->get('/segundos/:semana/:dia/:hora/:minuto', function($semana, $dia, $hora, $minuto){
-
-    $res=0;
-    $res+=$semana*7*24*60*60;
-    $res+=$dia*24*60*60;
-    $res+=$hora*60*60;
-    $res+=$minuto*60;
-
-    echo "<html><link rel=\"stylesheet\" href=\"../css/answers.css\" type=\"text/css\" /><body>";
-    echo "has introducido ". $semana . " semanas ".$dia." dias ". $hora . " horas ".$minuto." minutos.";
-    echo "<br/>";
-    echo "En total son ".$res . " segundos";
-    echo "<br/>";
-    echo "<a href=\"http://localhost/DAW/daw/lab13/index.php\">Return to main menu</a>";
-    echo "<br/>";
-    echo "</body></html>";
-
-});
 /**
  * Step 4: Run the Slim application
  *
