@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.3.12
+-- version 4.3.13
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 01, 2015 at 08:15 PM
+-- Generation Time: Apr 03, 2015 at 05:08 AM
 -- Server version: 10.0.17-MariaDB-log
--- PHP Version: 5.6.6
+-- PHP Version: 5.6.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -29,17 +29,20 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` int(11) NOT NULL,
   `matricula` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `usuario` varchar(140) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `usuario` varchar(140) COLLATE utf8_spanish_ci NOT NULL,
+  `contraseña` varchar(10) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `matricula`, `usuario`) VALUES
-(1, 'a01200352', 'ruben'),
-(3, 'a01200666', 'holo'),
-(5, 'a01200777', 'yeah');
+INSERT INTO `usuario` (`id`, `matricula`, `usuario`, `contraseña`) VALUES
+(1, 'a01202413', 'Mauricio Villanueva', 'repoma'),
+(2, 'a01206782', 'Nancy Espinosa', 'repoma'),
+(3, 'a01202413', 'Mauricio Villanueva', 'repoma'),
+(4, 'a01206782', 'Nancy Espinosa', 'repoma'),
+(7, 'a01200352', 'ruben', 'repoma');
 
 --
 -- Indexes for dumped tables
@@ -59,7 +62,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

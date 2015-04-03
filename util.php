@@ -161,17 +161,17 @@ function query($query)
 
 
 
-function insertUser($matricula,$password)
+function insertUser($matricula,$user,$password)
 {
  $mysql = connect();
 // insert command specification 
- $query='INSERT INTO usuario (matricula,usuario) VALUES (?,?) ';
+ $query='INSERT INTO usuario (matricula,usuario,contraseña) VALUES (?,?,?) ';
 // Preparing the statement 
  if (!($statement = $mysql->prepare($query))) {
     die("Preparation failed: (" . $mysql->errno . ") " . $mysql->error);
 }
 // Binding statement params    
-if (!$statement->bind_param("sssssssssss",$iprof,$idalumno,$idmat,$disp,$hab,$comp,$dif,$consistencia,$interesante,$fecha,$difi)) {
+if (!$statement->bind_param("sss",$matricula,$user,$password)) {
     die("Parameter vinculation failed: (" . $statement->errno . ") " . $statement->error); 
 }
  // Executing the statement
