@@ -1,6 +1,7 @@
 
 <?php
   session_start();
+  $_SESSION['usuario']=" ";
   include_once("util.php");
    if(isset($_GET["sal"])){ 
  
@@ -10,6 +11,7 @@ echo '</script>';
 }
 $p=0;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -167,8 +169,9 @@ $p=0;
                 </table>
              </div>
           </div>
-      <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button> 
+      <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="evalValidation()" data-toggle="modal">Evaluar</button> 
    </br>
+   <div id="val"></div>
 <div style="right:10%; position:relative"><img src="img/califica.png"><div>
 </section>
 

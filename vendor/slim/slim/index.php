@@ -9,7 +9,7 @@
  * If you are using Composer, you can skip this step.
  */
 require 'Slim/Slim.php';
-
+session_start();
 
 \Slim\Slim::registerAutoloader();
 
@@ -128,9 +128,13 @@ $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
                         if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                         {
                             if($row[3]==$password){
+                                $_SESSION['usuario']=$user;
+                                $u=$_SESSION['usuario'];
                                 echo '<script language="javascript">';
-                                echo 'alert("Saludos usuario : '.$user.'")';
+                                echo 'alert("Saludos usuario : '.$u.'")';
                                 echo '</script>';
+                                
+
                             }else{
                                 echo '<script language="javascript">';
                                 echo 'alert("Contraseña equivocada")';
@@ -154,7 +158,11 @@ $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
                     
 });
 
+$app->get('/validacion', function(){
+    $u=$_SESSION['usuario'];
 
+        echo "".$u;                    
+});
 
 
 // GET route
