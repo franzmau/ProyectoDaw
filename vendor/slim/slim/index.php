@@ -1,3 +1,6 @@
+ <link href="bootstrap.min.css" rel="stylesheet">
+                        <!-- <link href="/five.css" rel="stylesheet"> -->
+                        <script src="bootstrap.min.js"></script> 
 <?php
 /**
  * Step 1: Require the Slim Framework
@@ -9,9 +12,11 @@
  */
 require 'Slim/Slim.php';
 
+
 \Slim\Slim::registerAutoloader();
 
 include_once("../../../util.php");
+
 
 /**
  * Step 2: Instantiate a Slim application
@@ -275,6 +280,97 @@ $app->delete(
     }
 );
 
+<<<<<<< HEAD
+=======
+$app->get('/desplegarProfesores', function(){
+                      $mysql=connect();
+
+                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor) FROM profesor p, evaluan e where p.id_maestro=e.idProfesor Group by e.idProfesor ORDER BY p.califiacion desc";
+                      $results = $mysql->query($query);
+                      while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                      {
+                      echo '<tr>';
+                      echo '<td>'.$row[0].'</td>';
+                      echo '<td>'.$row[2].'</td>';
+                      echo '<td>'.$row[1].'</td>';
+                      echo '</tr>';
+                      }
+                      mysqli_free_result($results);
+                      disconnect($mysql);
+
+});
+
+$app->get('/desplegarCursos', function(){
+                      $mysql=connect();
+
+                      $query="SELECT m.descripcion, m.calif, Count(e.idMateria) FROM materia m, evaluan e where m.clave=e.idMateria Group by e.idMateria ORDER BY m.calif desc";
+                        $results = $mysql->query($query);
+                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+                        echo '<tr>';
+                        echo '<td>'.$row[0].'</td>';
+                        echo '<td>'.$row[2].'</td>';
+                        echo '<td>'.$row[1].'</td>';
+                        echo '</tr>';
+                        }
+                      mysqli_free_result($results);
+                      disconnect($mysql);
+
+});
+
+$app->get('/validaUsuario/:usr/:passwd', function($user,$password){
+                      $mysql=connect();
+
+                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$user."'";
+                        $results = $mysql->query($query);
+                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+                            if($row[2]==$password){
+                                echo '<script language="javascript">';
+                                echo 'alert("Saludos usuario : '.$user.'")';
+                                echo '</script>';
+                            }else{
+                                echo '<script language="javascript">';
+                                echo 'alert("Contraseña equivocada")';
+                                echo '</script>';
+                            }
+                        }else{
+                            echo '<script language="javascript">';
+                                echo 'alert("Contraseña o Usuario equivocado")';
+                                echo '</script>';
+                        }
+                      mysqli_free_result($results);
+                      disconnect($mysql);
+
+});
+
+$app->get('/insertaUsuario/:usr/:passwd/:vfy/:mail', function($user,$password,$verify,$mail){
+                      
+
+                      if($password==$verify){
+                        if(insertRecord($user,$password)){
+                            echo '<script language="javascript">';
+                                echo 'alert("Ususario nuevo agregado")';
+                                echo '</script>';
+                        }
+                      }else{
+                            echo '<script language="javascript">';
+                            echo '<div class="alert alert-danger">
+                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                    <strong>Alto!</strong> Las contraseñas no coinciden. Intente de nuevo.
+                        </div>';
+                                // echo 'alert("Las contraseñas no coinciden. Intente de nuevo")';
+                                echo '</script>';
+                        }
+});
+
+ $app->get('/materias/:input', function($profe){
+                      
+    dropdown("Materia", "SELECT m.clave, m.descripcion FROM imparten i, materia m WHERE m.clave=i.id_mat and i.id_prof='$profe'");
+                    
+});
+
+>>>>>>> alert
 /**
  * Step 4: Run the Slim application
  *

@@ -56,8 +56,6 @@ echo '</script>';
 
 }
 
-if(isset($_POST['profesor'])){
-  $_SESSION['prof']=$_POST['profesor'];
-}
+
 
   ?> 
