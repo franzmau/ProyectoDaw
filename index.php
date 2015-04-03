@@ -1,6 +1,13 @@
 <?php
   include_once("util.php");
-  $p=0;
+   if(isset($_GET["sal"])){ 
+ 
+echo '<script language="javascript">';
+echo 'document.getElementById("mensaje").innerHTML = <div class="alert alert-success">Paragraph changed!</div>';
+echo '</script>';
+
+}
+$p=0;
 ?>
 
 <!DOCTYPE html>
@@ -30,12 +37,13 @@
 
 <body id="page-top" class="index">
 
+
+<div class="mensaje"></div>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container"> 
 
-
-  <div id="repoma" style="visibility:hidden"><span class="navbar-header page-scroll"><a style="left:100%" class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span></div>
+  <div id="repoma" style="visibility:hidden"><span class="navbar-header page-scroll"><a style="left:100% " class="navbar-brand page-scroll" href="#page-top">REPOMA</a></span></div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
@@ -129,17 +137,19 @@
 
                       function desplegarProfesores(){
                       $mysql=connect();
-                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor), d.dep FROM profesor p, evaluan e, departamento d where p.id_maestro=e.idProfesor and p.dep = d.id Group by e.idProfesor ORDER BY p.califiacion desc";
+                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor), d.dep, p.id_maestro FROM profesor p, evaluan e, departamento d where p.id_maestro=e.idProfesor and p.dep = d.id Group by e.idProfesor ORDER BY p.califiacion desc";
                       $results = $mysql->query($query);
                       while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                       {
+                      $idProfesor=$row[4];
                       echo '<tr>';
-                      echo '<td align="left"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i> '.$row[0].'</strong></td>';
+                      echo '<td align="left"><strong><i class="fa fa-lg fa-user" style="color:#536270"><a href="#" title="Consideraciones" type="submit" data-target="#Profesor" data-toggle="modal" onclick="ElegirProfesor('.$idProfesor.')"></i>   '.$row[0].'</a></strong></td>';
                       echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
                       echo '<td><span class="badge">'.$row[2].'</span></td>';
                       echo '<td><span class="label label-success">'.$row[1].'</span></td>';
                       echo '</tr>';
                       }
+
                       mysqli_free_result($results);
                       disconnect($mysql);
                       }
@@ -175,12 +185,13 @@
 
                         function desplegarCursos(){
                         $mysql=connect();
-                        $query="SELECT m.descripcion, m.calif, Count(e.idMateria), d.dep FROM materia m, evaluan e, departamento d where m.clave=e.idMateria and d.id=m.dep Group by e.idMateria ORDER BY m.calif desc";
+                        $query="SELECT m.descripcion, m.calif, Count(e.idMateria), d.dep, m.clave FROM materia m, evaluan e, departamento d where m.clave=e.idMateria and d.id=m.dep Group by e.idMateria ORDER BY m.calif desc";
                         $results = $mysql->query($query);
                         while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                         {
-                        echo '<tr>';
-                        echo '<td align="left"><strong><i class="glyphicon glyphicon-book" style="color:#536270"></i>   '.$row[0].'</strong></td>';
+                          $idMateria=$row[4];
+
+                        echo '<td align="left"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"><a href="#" title="Consideraciones" type="submit" data-target="#Materia" data-toggle="modal" onclick="ElegirMateria('.$idMateria.')"></i>   '.$row[0].'</a></strong></td>';
                         echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
                         echo '<td><span class="badge">'.$row[2].'</span></td>';
                         echo '<td><span class="label label-success">'.$row[1].'</span></td>';
@@ -195,15 +206,44 @@
           </div>
         </div>
        </div>
-     <button style=" width:15%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+     <button style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
       <div style="left:10%; position:relative"><img src="img/califica2.png"></div>
     </div>
   </div> 
 </section>
 
-<!--=======SCRIPT POP-UP================================-->
-    <script src="https://code.jquery.com/jquery.js"></script>
+<!--=======POP-UP PROFESOR================================
+<div class="modal fade" id="Profesor" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
+                <div id="cuerpo2">
 
+                </div>
+            </div>
+           <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+<!--=======POP-UP MATERIA================================
+<div class="modal fade" id="Materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
+                <div id="cuerpo">
+
+                </div>
+            </div>
+           <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+       </div>
+    </div>
+  </div>
+</div>
+-->
 <!--=======POP-UP================================-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
@@ -212,137 +252,24 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
              <h3 class="modal-title" id="myModalLabel" style="color:#0080FF;  font-size: 100%;font-weight: bold;text-align:center">Elige a tu profesor y el curso que imparte</h3>
               </div>
-               <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
-              
-               <form name="evaluar" method="POST" action="servidor.php">
+                <form name="evaluar" method="POST" action="servidor.php">
+                 <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
+        
                     <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></div></div>
                     </br>
                     <div><h4 style="color: #536270">Materia</h4>
                     <div colspan="2" id="h" class="h"><?php if(isset($p)){dropdown("Materia", "SELECT clave,descripcion FROM materia ");} ?></div></div>
-               </form>
 
               </div>
-           <div class="modal-footer">
-         <div class="add" id="add"><input  type="submit" name="agregar" class="btn btn-primary" data-target="#Evaluar" data-dismiss="modal" class="btn btn-lg btn-success" data-toggle="modal" type="submit" id="agregar" name="agregar" value="Evaluar"></div>
-       </div>
+            <div class="modal-footer">
+         <div class="add" id="add"><input type="submit" id="agregar" name="agregar" class="btn btn-primary" value="Evaluar"></div>
+        </div>
+       </form>
     </div>
   </div>
 </div>
 
 <!--=======POP-UP================================-->
-<div class="modal fade" id="Evaluar" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-   <div class="modal-dialog">
-       <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title" id="myModalLabel" style="color:#0080FF;font-size: 100%;font-weight: bold;text-align:center">Evaluación</h4>
-                </div>
-                 <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
-                
-                   <form action="servidor.php" method="POST" name="preguntas" >
-
-                    <?php
-                    echo "Estas a punto de evaluar a ".$_SESSION['prof'] ."<br> En la materia de ".$_SESSION['mat']." <br>";
-                    $prof=$_SESSION['prof'];
-                    $mat=$_SESSION['mat'];
-                    ?>
-                    <br>
-
-                          <label> Qué tan seguido consideras que <?php echo $prof=$_SESSION['prof'];?> ha explicado bien los temas y no existe alguna dificultad para entender un tema? </label>
-                          <br>
-                          <br>
-                          <select name="cuatro" >
-                          <option value="0">----Selecciona una----</option> 
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-                    <br>
-                    
-                          <label> Qué nivel de dificultad consideras que tiene <?php echo $prof=$_SESSION['mat'];?>  independientemente del profesor? </label>
-                          <br>
-                          <br>
-                          <select name="siete" >
-                          <option value="0">----Selecciona una----</option> 
-                            <option value="1">Muy Sencilla</option>
-                            <option value="2">Sencillo</option>
-                            <option value="3">Media</option>
-                            <option value="4">Difícil</option>
-                            <option value="5">Muy Difícil</option>
-                          </select>
-                    <br>
-                          <label> ¿Cuánta habilidad consideras tu que has desarrollado?</label>
-                          <br>
-                          <br>
-                          <select name="dos" >
-                            <option value="0">----Selecciona una----</option>
-                            <option value="1">Demasiada</option>
-                            <option value="2"> Considerable</option>
-                            <option value="3">Lo normal</option>
-                            <option value="4">Un poco </option>
-                            <option value="5"> Nada</option>
-                          </select>
-                    <br>
-                          <label>¿Consideras que  <?php echo $prof=$_SESSION['prof'];?> tiene <a href="#" title="Capacidad para idear, inventar o emprender cosas" class="tooltip"> <span title="Mas información">  iniciativa</span></a>  y compromiso contigo? </label>
-                          <br>
-                          <br>
-                          <select name="tres">
-                            <option value="0">---Selecciona una----</option>
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-                    <br>
-                          <label> ¿Al momento de tener una duda  <?php echo $prof=$_SESSION['prof'];?> se preocupa por ella? </label>
-                          <br>
-                          <br>
-                          <select name="uno">
-                            <option value="0">----Selecciona una----</option>
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-
-                    <br>
-                          <label>¿Consideras que  <?php echo $prof=$_SESSION['prof'];?> es consistenete con lo que dice y hace a lo largo del semestre?</label>
-                          <br>
-                          <br>
-                          <select name="cinco">
-                            <option value="0">----Seleccione una----</option>
-                            <option value="1">Siempre</option>
-                            <option value="2">Casi siempre</option>
-                            <option value="3">A veces</option>
-                            <option value="4">Casi nunca</option>
-                            <option value="5"> Nunca</option>
-                          </select>
-                    <br>
-                          <label>¿Consideras  <?php echo $MAT=$_SESSION['mat'];?> Interesante?</label>
-                          <br>
-                          <br>
-                          <select name="seis">
-                            <option value="0">----Selecciona una----</option>
-                            <option value="1"> Muy interesante</option>
-                            <option value="2">Interesante</option>
-                            <option value="3">Neutra</option>
-                            <option value="4">muy poco interesante</option>
-                            <option value="5"> Nada interesante</option>
-                          </select>
-                          <br><br>
-                </form>
-              </div>
-             <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-         <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-       </div>
-    </div>
- </div>
-</div>
 
 <footer>
   <div class="container">
@@ -354,6 +281,10 @@
 </footer>
 
 
+<!--=======SCRIPT POP-UP================================-->
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!--Opciones POP-UP--> 
 <script src="js/jv.js"></script>
@@ -368,10 +299,6 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> 
 <script src="js/classie.js"></script> 
 <script src="js/cbpAnimatedHeader.js"></script> 
-
-<!-- Contact Form JavaScript --> 
-<script src="js/jqBootstrapValidation.js"></script> 
-<script src="js/contact_me.js"></script> 
 
 <!-- Custom Theme JavaScript --> 
 <script src="js/five.js"></script>

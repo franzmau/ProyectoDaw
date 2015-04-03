@@ -19,22 +19,41 @@ if(isset($_POST['agregar'])) {
     $_SESSION['mat']=$a2[0];
     
     
-    
   include("preguntas.php");
     
 }
 
 if(isset($_POST['evaluar'])){
- 
+  
  if($_POST['uno']!=0 && $_POST['dos']!=0 && $_POST['tres']!=0 && $_POST['cuatro']!=0 && $_POST['cinco']!=0 && $_POST['seis']!=0 && $_POST['siete']!=0){   
+    
+   
+    
     insertRecord($_SESSION['id1'], $_SESSION['id2'],1, $_POST['uno'], $_POST['dos'], $_POST['tres'], $_POST['cuatro'], $_POST['cinco'],$_POST['seis'],date("Y-m-d H:i:s"),$_POST['siete']);
+    
     $_SESSION['id1']=null;
-    $_SESSION['id2']=null;
+        $_SESSION['id2']=null;
+      
+    
     header ('Location:./index.php?sal=1');
- }else {       
-echo '<script language="javascript">';
+     
+    
+ }
+
+    
+    
+    else {
+ 
+        
+        
+     echo '<script language="javascript">';
 echo 'alert("Todos los campos deben de estar completos")';
 echo '</script>';
+    
  }
+    
+
 }
-?> 
+
+
+  ?> 
