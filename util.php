@@ -15,15 +15,14 @@
 
      crea("CREATE OR REPLACE VIEW `prof` AS select `m`.`nombre` AS `profesor`,`dm`.`descripcion` AS `consitente`,`h`.`descripcion` AS `dificultad`,`i`.`descripcion` AS `iniciativa`,`p`.`descripcion` AS `preocupacion`,count(`e`.`idProfesor`) AS `Eva`, id_maestro as maestro from (((((`proyectodaw2`.`profesor` `m` join `proyectodaw2`.`consistente` `dm`) join `proyectodaw2`.`dificultadmaestro` `h`) join `proyectodaw2`.`iniciativa` `i`) join `proyectodaw2`.`preocupacion` `p`) join `proyectodaw2`.`evaluan` `e`) where ((`dm`.`max` >= `m`.`Consistente`) and (`dm`.`min` <= `m`.`Consistente`) and (`h`.`max` >= `m`.`Dificultad`) and (`h`.`min` <= `m`.`Dificultad`) and (`i`.`max` >= `m`.`iniciativa`) and (`i`.`min` <= `m`.`iniciativa`) and (`p`.`max` >= `m`.`preocupacion`) and (`p`.`min` <= `m`.`preocupacion`) and (`e`.`idProfesor` = `m`.`id_maestro`)) group by `e`.`idProfesor`");
 
+    crea("CREATE OR REPLACE VIEW `vista` AS select `p`.`nombre` AS `Profesor`,`m`.`descripcion` AS `Materia`,`a`.`matricula` AS `usuario`,`s`.`valor` AS `disponible`,`d`.`valor` AS `habilidades`,`p3`.`valor` AS `compromiso`,`p4`.`valor` AS `dificultad_prof`,`p5`.`valor` AS `consistencia`,`i`.`VALOR` AS `Interesante`,`se`.`valor` AS `dificultad_mat` from ((((((((((`proyectodaw2`.`evaluan` `e` join `proyectodaw2`.`materia` `m`) join `proyectodaw2`.`profesor` `p`) join `proyectodaw2`.`usuario` `a`) join `proyectodaw2`.`pregunta1` `s`) join `proyectodaw2`.`demasiadointeresante` `i`) join `proyectodaw2`.`pregunta2` `d`) join `proyectodaw2`.`sencillez` `se`) join `proyectodaw2`.`pregunta3` `p3`) join `proyectodaw2`.`pregunta4` `p4`) join `proyectodaw2`.`pregunta5` `p5`) where ((`e`.`idProfesor` = `p`.`id_maestro`) and (`e`.`idMateria` = `m`.`clave`) and (`e`.`IdAlumno` = `a`.`id`) and (`e`.`disponibilidad` = `d`.`id`) and (`e`.`habilidades` = `s`.`id`) and (`e`.`compromiso` = `p3`.`id`) and (`e`.`dificultad` = `p4`.`id`) and (`e`.`consistencia` = `p5`.`id`) and (`e`.`interesante` = `i`.`ID`) and (`e`.`difi` = `se`.`id`))");
+
     function showquery($query) {
         $mysql = connect();
         
         $query = mysqli_real_escape_string($mysql, $query);
         $results = $mysql->query($query);
-        
-       
-        
-        
+
         echo '<table class\"showquery\" border="1">';
         echo "<thead>\n";
         $fields = mysqli_num_fields($results);

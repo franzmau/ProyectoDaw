@@ -50,6 +50,7 @@ $p=0;
         <li class="hidden"> <a href="#page-top"></a></li>
         <li> <a class="page-scroll" href="#profesores">Profesores</a> </li>
         <li> <a class="page-scroll" href="#cursos">Cursos</a> </li>
+        <li> <a class="page-scroll" href="#estadisticas">Estadisticas</a> </li>
 
 
         <!-- Login -->
@@ -212,6 +213,63 @@ $p=0;
   </div> 
 </section>
 
+<!-- Estadisticas -->
+<section id="estadisticas" align="center">
+        <h1>Estadisticas</h1>
+          <h6>¿Que esperas? Checa las más nuevas evaluaciones y las no tan nuevas</h6>
+            </br></br></br>
+              <div style="width:90%; margin:0 auto; border:0px green dashed;" align="center">
+                <table class="table table-bordered table-hover" id="sample_3" style="text-align:center">
+                  <thead>
+                    <tr>
+                       <th style="text-align:center"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i> Profesor</strong></th>
+                       <th style="text-align:center"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"></i> Materia</strong></th>
+                       <th style="text-align:center"><strong><i class="glyphicon glyphicon-user"></i>Usuario</strong></th>
+                       <th style="text-align:center"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i></br>Disponible</strong></th>
+                       <th style="text-align:center"><i class="glyphicon glyphicon-book" style="color:#536270;"></i></br>Habilidades</strong></th>
+                       <th style="text-align:center"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i></br>Compromiso</strong></th>
+                       <th style="text-align:center"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i></br>Dificultad</th>
+                       <th style="text-align:center"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i></br>Consistencia</strong></th>
+                       <th style="text-align:center"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"></i></br>Interesante</strong></th>
+                       <th style="text-align:center"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"></i></br>Dificultad</strong></th>
+                     </tr>
+                  </thead>   
+                  <tbody>
+<!--Los cursos mejor calificados por maestro -->
+                        <?php
+                         desplegarVista();
+
+                        function desplegarVista(){
+                        $mysql=connect();
+                        $query="SELECT profesor, materia, usuario, disponible, habilidades, compromiso, dificultad_prof, consistencia, interesante, dificultad_mat from vista";
+                        $results = $mysql->query($query);
+                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+
+                        echo '<tr>';
+                        echo '<td><strong>'.$row[0].'<strong></td>';
+                        echo '<td><strong>'.$row[1].'<strong></td>';
+                        echo '<td><span class="label label-primary">'.$row[2].'</span></td>';
+                        echo '<td>'.$row[3].'</td>';
+                        echo '<td>'.$row[4].'</td>';
+                        echo '<td>'.$row[5].'</td>';
+                        echo '<td>'.$row[6].'</td>';
+                        echo '<td>'.$row[7].'</td>';
+                        echo '<td>'.$row[8].'</td>';
+                        echo '<td>'.$row[9].'</td>';
+                        echo '</tr>';
+                        }
+                        mysqli_free_result($results);
+                        disconnect($mysql);
+                        }
+                        ?>
+
+                  </tbody>
+                </table>
+             </div>
+          </div>
+</section>
+
 <!--=======POP-UP PROFESOR================================
 <div class="modal fade" id="Profesor" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
@@ -228,7 +286,7 @@ $p=0;
   </div>
 </div>
 
-<!--=======POP-UP MATERIA================================
+<!=======POP-UP MATERIA================================
 <div class="modal fade" id="Materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
