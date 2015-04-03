@@ -19,23 +19,103 @@ if(isset($_POST['agregar'])) {
     $_SESSION['mat']=$a2[0];
     
     
+    
   include("preguntas.php");
     
 }
+
+if(isset($_POST['addp'])){
+
+     insertar($_POST['nombre'],$_POST['Depa'],1);
+
+      
+    $_SESSION['addp']=1;
+header ('Location:./Index.php?salida=1');
+} 
+
+
+if(isset($_POST['addr'])){
+
+     inserta($_POST['M'],$_POST['P']);
+  
+      
+    $_SESSION['addre']=1;
+header ('Location:./Index.php?s4=1');
+} 
+
+
+if(isset($_POST['editr'])){
+ 
+     borrar($_POST['i']);
+  
+      
+    $_SESSION['r']=1;
+header ('Location:./Index.php?s5=1');
+} 
+
+
+
+
+if(isset($_POST['editp'])){
+
+     editar($_POST['newname'],$_POST['Dep2'],$_POST['p1'],1);
+
+      
+    $_SESSION['edp']=1;
+header ('Location:./Index.php?s=1');
+}
+
+
+
+
+if(isset($_POST['editm'])){
+
+     editar($_POST['newm'],$_POST['Dep3'],$_POST['p2'],2);
+
+      
+    $_SESSION['edm']=1;
+header ('Location:./Index.php?s3=1');
+}
+
+
+
+
+
+
+if(isset($_POST['addm'])){
+
+     insertar($_POST['descripcion'],$_POST['Dep'],2);
+
+      
+    $_SESSION['addm']=1;
+header ('Location:./Index.php?sa=1');
+} 
+
+
 
 if(isset($_POST['evaluar'])){
   
  if($_POST['uno']!=0 && $_POST['dos']!=0 && $_POST['tres']!=0 && $_POST['cuatro']!=0 && $_POST['cinco']!=0 && $_POST['seis']!=0 && $_POST['siete']!=0){   
     
-   
+   try{
     
     insertRecord($_SESSION['id1'], $_SESSION['id2'],1, $_POST['uno'], $_POST['dos'], $_POST['tres'], $_POST['cuatro'], $_POST['cinco'],$_POST['seis'],date("Y-m-d H:i:s"),$_POST['siete']);
-    
+           
+   }catch(Exception $e){
+   
+   }
+     
+     
+     
+     
     $_SESSION['id1']=null;
         $_SESSION['id2']=null;
       
-    
-    header ('Location:./index.php?sal=1');
+     
+     
+     
+    $_SESSION['m']=1;
+header ('Location:./index.php?sal=1');
      
     
  }

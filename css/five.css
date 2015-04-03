@@ -106,6 +106,14 @@ fieldset[disabled] .btn-xl.active {
     background-color: #E0E5EF;
 }
 
+.administrador{
+    background-color:white;
+    border-top-width: 3%;
+    border-right-width:3%;
+    border-bottom-width:3%;
+    border-left-width:3%;
+}
+
 .bg-darkest-gray {
     background-color: #222;
 }
@@ -741,5 +749,7 @@ table,tbody, tr, td, thead, th {
   border:#536270  1px solid !important;
 }
 
-    
+table#especial,tbody#especial, tr#especial, td#especial, thead#especial, th#especial {
+  border:transparent 4px solid !important;
+}
 

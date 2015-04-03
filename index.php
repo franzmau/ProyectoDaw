@@ -1,24 +1,86 @@
-<?php
+ <?php
   include_once("util.php");
-   if(isset($_GET["sal"])){ 
+   session_start();
+ //require 'Slim/Slim.php';
+//\Slim\Slim::registerAutoloader();
+
+//$app->get('/hello/:name', function ($name) {
+  //  echo "Hello, $name";
+//});
+
+//$app->run();
+//*/
+
+if(isset($_GET["sal"])){ 
  
 echo '<script language="javascript">';
-echo 'document.getElementById("mensaje").innerHTML = <div class="alert alert-success">Paragraph changed!</div>';
+echo 'alert("Se agrego la evaluacion a profesor y materia")';
 echo '</script>';
-
 }
+
+if(isset($_GET["salida"])&&  $_SESSION['addp']==1){ 
+ 
+echo '<script language="javascript">';
+echo 'alert("Se agrego al profesor")';
+echo '</script>';
+$_SESSION['addp']=0;
+}
+
+if( isset($_GET["sa"])&& $_SESSION['addm']==1){ 
+ 
+echo '<script language="javascript">';
+echo 'alert("Se agrego la materia")';
+echo '</script>';
+$_SESSION['addp']=0;
+}
+
+if( isset($_GET["s"])&& $_SESSION['edp']==1){ 
+ 
+echo '<script language="javascript">';
+echo 'alert("Se edito al profesor")';
+echo '</script>';
+$_SESSION['edp']=0;
+}
+
+if( isset($_GET["s3"])&& $_SESSION['edm']==1){ 
+ 
+echo '<script language="javascript">';
+echo 'alert("Se edito la materia")';
+echo '</script>';
+$_SESSION['edm']=0;
+}
+
+
+if( isset($_GET["s4"])&& $_SESSION['addre']==1){ 
+ 
+echo '<script language="javascript">';
+echo 'alert("Se agrego la relacion")';
+echo '</script>';
+$_SESSION['addre']=0;
+}
+
+if( isset($_GET["s5"])&& $_SESSION['r']==1){ 
+ 
+echo '<script language="javascript">';
+echo 'alert("Se elimino la relacion")';
+echo '</script>';
+$_SESSION['r']=0;
+}
+
 $p=0;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
 <title>REPOMA</title>
+
+<!--AJAX--> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -120,8 +182,8 @@ $p=0;
 <section id="profesores" align="center">
           <h1>Profesores</h1>
             </br></br>
-              <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
-                <table class="table table-bordered table-hover" id="sample_1" style="text-align:center">
+              <div class="table-responsive" style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
+                <table class="table table-hover" id="sample_1" style="text-align:center">
                   <thead>
                     <tr>
                        <th style="text-align:center">Nombre</th>
@@ -159,7 +221,7 @@ $p=0;
                 </table>
              </div>
           </div>
-      <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button> 
+      <button type="submit" style="width:20%" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button> 
    </br>
 <div style="right:10%; position:relative"><img src="img/califica.png"><div>
 </section>
@@ -168,8 +230,8 @@ $p=0;
 <section id="cursos" class="bg-light-gray" align="center">
       <h1>Cursos</h1>
       </br></br>
-        <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
-            <table class="table table-bordered table-hover" id="sample_2" style="text-align:center">
+        <div class="table-responsive" style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
+            <table class="table table-hover" id="sample_2" style="text-align:center">
                <thead style="text-align:center !important">
                   <tr>
                     <th style="text-align:center">Curso</th>
@@ -207,7 +269,7 @@ $p=0;
           </div>
         </div>
        </div>
-     <button style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+     <button type="button" data-target="#myModal" style="width:20%" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
       <div style="left:10%; position:relative"><img src="img/califica2.png"></div>
     </div>
   </div> 
@@ -218,8 +280,8 @@ $p=0;
         <h1>Estadisticas</h1>
           <h6>¿Que esperas? Checa las más nuevas evaluaciones y las no tan nuevas</h6>
             </br></br></br>
-              <div style="width:90%; margin:0 auto; border:0px green dashed;" align="center">
-                <table class="table table-bordered table-hover" id="sample_3" style="text-align:center">
+              <div class="table-responsive" style="width:90%; margin:0 auto; border:0px green dashed;" align="center">
+                <table class="table table-hover" id="sample_3" style="text-align:center">
                   <thead>
                     <tr>
                        <th style="text-align:center"><strong><i class="fa fa-lg fa-user" style="color:#536270"></i> Profesor</strong></th>
@@ -235,7 +297,7 @@ $p=0;
                      </tr>
                   </thead>   
                   <tbody>
-<!--Los cursos mejor calificados por maestro -->
+                        <!--Los cursos mejor calificados por maestro -->
                         <?php
                          desplegarVista();
 
@@ -270,6 +332,255 @@ $p=0;
           </div>
 </section>
 
+
+<!-- GESTOR REPOMA-->
+<section id="cursos" class="bg-light-gray" align="center">
+      <h1>Gestor REPOMA</h1>
+      </br>
+
+<!-- REGISTRAR / MODIFICAR / ELIMINAR PROFESOR -->
+<div align="center" class="table-responsive" >  
+  <table style="width:90%; height:90%" class="especial">
+    <thead id="especial">
+     <tr id="especial"><th id="especial">
+      <div class"container" style="width:100%;">
+        <h3 style="text-align:center"><i class="fa fa-lg fa-user" style="color:#536270"></i> Profesor</h3>
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+
+            <div class="comment-tabs">
+            <ul class="nav nav-tabs" role="tablist" >
+                <li class="active"><a href="#agregarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
+                <li><a href="#modificarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
+                <li><a href="#eliminarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Eliminar</h4></a></li>
+            </ul>
+
+            <div class="tab-content administrador" align="center">
+              </br></br>  
+                <div class="tab-pane active" id="agregarP"> 
+                 
+                 <form name="profe" method="POST" action="servidor.php">
+                  
+                  <label>Nombre </label>
+                  <input style="width:60%" type="text" name="nombre">
+                  </br></br>
+                  
+                  <label>Departamento </label>
+                  <?php
+                  dropdown("Depa", "Select * from departamento ");
+                  ?>
+
+                  </br></br></br>
+                  <input type="submit" class="btn btn-success" style="width:35%" name="addp" value="Agregar">
+                  </form>
+
+                 </br></br>
+                </div>
+
+                <div class="tab-pane" id="modificarP">
+                    
+                    <form name="editprofe" method="POST" action="servidor.php">
+                    
+                    <label>Profesor </label>
+                    <?php 
+                    $aux=regresa1 ("SELECT count(*) FROM `profesor`","count(*)");
+                    echo '<select name ="p1" >';
+                     for($i=1;$i<=$aux;$i++){
+                    echo '<option value='.$i.'>'.$i.'</option>';}
+                    echo '</select>'?>
+                    </br>
+                      <label>Nombre </label>
+                      <input style="width:60%" type="text" name="newname">
+
+                      </br></br>
+
+                      <label>Departamento</label>
+                      <?php
+                      dropdown("Dep2", "Select * from departamento ");
+                      ?>
+
+                    </br></br></br>
+                      <input type="submit" class="btn btn-warning" style="width:35%" name="editp" value="Modificar">   
+                    </br></br>
+                    </form> 
+
+                     </br></br>
+                </div>
+
+                <div class="tab-pane" id="eliminarP">
+
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </th>
+
+<th id="especial"></th> <!-- ////////// -->
+
+<!-- REGISTRAR / MODIFICAR / ELIMINAR MATERIA -->
+<th id="especial">
+ <div class="container" style="width:100%;">
+   <h3 style="text-align:center"><i class="glyphicon glyphicon-book" style="color:#536270;"></i> Curso</h3>
+    <div class="row">
+       <div class="col-sm-10 col-sm-offset-1">
+            <div class="comment-tabs">
+            <ul class="nav nav-tabs" role="tablist" >
+                <li class="active"><a href="#agregarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
+                <li><a href="#modificarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
+                <li><a href="#eliminarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Eliminar</h4></a></li>
+            </ul>
+
+            <div class="tab-content administrador" align="center">
+                
+                <div class="tab-pane active" id="agregarM">
+
+                  </br></br>
+
+                  <form name="materia" method="POST" action="servidor.php">
+                    <label>Materia</label>
+
+                    <input style="width:60%" type="text" name="descripcion">
+
+                    </br></br>
+
+                    <label>Departamento</label>
+                    <?php dropdown("Dep", "Select * from departamento ");?>
+
+                  </br></br></br>
+                    <input type="submit" name="addm" class="btn btn-success" style="width:35%" value="Agregar">
+                  </form>  
+                  </br></br>
+                </div>
+
+                <div class="tab-pane" id="modificarM">
+
+
+                  <form name="editmat" method="POST" action="servidor.php">
+                   </br></br>
+
+                     <label>Curso </label>
+
+                     <?php 
+                      $aux=regresa1 ("SELECT count(*) FROM `materia`","count(*)");
+                      echo '<select name ="p2" >';
+                      for($i=1;$i<=$aux;$i++){
+                      echo '<option value='.$i.'>'.$i.'</option>';  
+                      }
+                      echo '</select>'
+                      ?>
+
+                      <label>Nombre </label>
+                      <input style="width:60%" type="text" name="newm">
+                      </br></br>
+
+                      <label>Departamento </label>
+                      <?php
+                      dropdown("Dep3", "Select * from departamento ");
+                      ?>
+
+                      </br></br></br>
+                      <input type="submit" class="btn btn-warning" style="width:35%" name="editm" value="Modificar">   
+                    </br></br>
+                  </form>           
+                  </br></br>
+                  </div>
+
+                  <div class="tab-pane" id="eliminarM">
+
+                  </div>
+
+                </div>
+               </div>
+              </div>
+            </div>
+          </div>
+      </th></tr>
+    </thead>
+  </table>
+ </div>  
+</br></br></br></br>
+
+<!-- REGISTRAR / MODIFICAR / ELIMINAR RELACION PROFESOR-CURSO -->
+<div align="center" class="table-responsive">
+ <table style="width:90%; height:90%" class="especial">
+   <thead id="especial">
+     <tr id="especial">
+      <th id="especial">
+
+      <div class"container" style="width:50%;">
+        <h3 style="text-align:center"><i class="fa fa-lg fa-user" style="color:#536270"></i>  Profesor <i class="glyphicon glyphicon-resize-horizontal"></i><i class="glyphicon glyphicon-book" style="color:#536270;"></i> Curso</h3>
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+
+            <div class="comment-tabs">
+            <ul class="nav nav-tabs" role="tablist" >
+                <li class="active"><a href="#agregarPM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
+                <li><a href="#modificarPM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
+                <li><a href="#eliminarPM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Eliminar</h4></a></li>
+            </ul>
+
+            <div class="tab-content administrador" align="center">
+              </br></br>
+
+                <div class="tab-pane active" id="agregarPM"> 
+                 
+               </form>
+                    <br>
+                    <form name="unir" method="POST" action="servidor.php">
+                    <label>Relación </label> <br>
+                    <?php
+                    
+                    dropdown("M", "SELECT clave,descripcion FROM materia ");
+                    echo "<br><br>";
+                   dropdown("P", "SELECT id_maestro,nombre FROM profesor ");
+
+                 
+                    ?>
+                    </br></br>
+                    <input type="submit" class="btn btn-success" style="width:35%" name="addr" value="Agregar">      
+                 </br></br>
+                </form>
+                 </br></br></br>
+                </div>
+
+                <div class="tab-pane" id="modificarPM">
+                
+                </div>
+
+
+                <div class="tab-pane" id="eliminarPM">
+
+                <form name="elire" method="POST" action="servidor.php">
+                <?php 
+                  $aux=regresa1 ("SELECT count(*) FROM `imparten`","count(*)");
+                  echo"Relación </br></br>";
+                  echo '<select name ="i" >';
+                   for($i=1;$i<=$aux;$i++){
+                  echo '<option value='.$i.'>'.$i.'</option>';}echo '</select>'?>
+                  </br></br>
+                  <input type="submit" class="btn btn-danger" style="width:35%" name="editr" value="Eliminar">
+                </form>
+                 </br></br></br>
+                </div>
+
+               </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+        </th>
+      </tr>
+    </thead>
+ </table>
+</div> 
+
+</section>
+
+
+
 <!--=======POP-UP PROFESOR================================
 <div class="modal fade" id="Profesor" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
@@ -302,7 +613,8 @@ $p=0;
   </div>
 </div>
 -->
-<!--=======POP-UP================================-->
+
+<!--=======POP-UP EVALUAR================================-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -327,8 +639,7 @@ $p=0;
   </div>
 </div>
 
-<!--=======POP-UP================================-->
-
+<!--PIE DE PAGINA -->
 <footer>
   <div class="container">
     <div class="row">
@@ -339,10 +650,8 @@ $p=0;
 </footer>
 
 
-<!--=======SCRIPT POP-UP================================-->
+<!--SCRIPT POP-UP--> 
 <script src="https://code.jquery.com/jquery.js"></script>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!--Opciones POP-UP--> 
 <script src="js/jv.js"></script>
