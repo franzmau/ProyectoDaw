@@ -308,5 +308,19 @@ disconnect($mysql);
 
 }
 
+
+function getUser($id){
+    $mysql=connect();
+    $query="SELECT * FROM `usuario` WHERE `id` ='".$id."'";
+    echo $query;
+    $results = $mysql->query($query);
+    if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+    {
+        return $row[1];
+    }else{
+        return 0;
+    }
+    disconnect($mysql);
+}
 ?>
 

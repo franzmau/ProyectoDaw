@@ -1,7 +1,9 @@
 <?php
+  session_cache_limiter(false);
+
   session_start();
-  $_SESSION['usuario']=" ";
   include_once("util.php");
+  
    if(isset($_GET["sal"])){ 
  
 echo '<script language="javascript">';
@@ -14,6 +16,7 @@ echo '</script>';
 
 
 }
+
 $p=0;
 ?>
 
@@ -79,10 +82,33 @@ $p=0;
                <?php if(isset($_POST['username']) && isset($_POST['password']) && !isset($_POST['uname']) && !isset($_POST['passwd']) && !isset($_POST['verify']) && !isset($_POST['email'])){
                 $u=substr(strtolower($_POST['username']),0,15);
                 $pa=substr(strtolower($_POST['password']),0,15);
-                         $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
-                         $c = curl_init($url);
-                         $response = curl_exec($c);
-                         curl_close($c);
+                         // $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
+                         // $c = curl_init($url);
+                         // $response = curl_exec($c);
+                         // curl_close($c);
+
+                       $mysql=connect();
+
+                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$u."'";
+                        $results = $mysql->query($query);
+                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+                            if($row[3]==$p){
+                                $_SESSION['usuario']="".$u;
+                                echo '<script language="javascript">des("'.$_SESSION['usuario'].'");';
+                                echo '</script>';
+                            }else{
+                                echo '<script language="javascript">';
+                                echo 'alert("Contraseña equivocada")';
+                                echo '</script>';
+                            }
+                        }else{
+                            echo '<script language="javascript">';
+                                echo 'alert("Contraseña o Usuario equivocado")';
+                                echo '</script>';
+                        }
+                      mysqli_free_result($results);
+                      disconnect($mysql);
                        } 
                        ?>
                        
@@ -177,9 +203,11 @@ $p=0;
                 </table>
              </div>
           </div>
-      <button style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="evalValidation()" data-toggle="modal">Evaluar</button> 
+      <button id="eval1" style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="evalValidation()" >Evaluar</button> 
+      <!-- data-toggle="modal" -->
+        <button id="eval2" style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" onclick="evalValidation()">Evaluar</button>
+   <div id="val"></div>        
    </br>
-   <div id="val"></div>
 <div style="right:10%; position:relative"><img src="img/califica.png"><div>
 </section>
 
@@ -212,7 +240,7 @@ $p=0;
           </div>
         </div>
        </div>
-     <button style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+     <!-- <button style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button> -->
       <div style="left:10%; position:relative"><img src="img/califica2.png"></div>
     </div>
   </div> 
@@ -240,31 +268,14 @@ $p=0;
                      </tr>
                   </thead>   
                   <tbody>
-<!--Los cursos mejor calificados por maestro -->
-                        <?php
-                         desplegarVista();
-                        function desplegarVista(){
-                        $mysql=connect();
-                        $query="SELECT profesor, materia, usuario, disponible, habilidades, compromiso, dificultad_prof, consistencia, interesante, dificultad_mat from vista";
-                        $results = $mysql->query($query);
-                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                        echo '<tr>';
-                        echo '<td><strong>'.$row[0].'<strong></td>';
-                        echo '<td><strong>'.$row[1].'<strong></td>';
-                        echo '<td><span class="label label-primary">'.$row[2].'</span></td>';
-                        echo '<td>'.$row[3].'</td>';
-                        echo '<td>'.$row[4].'</td>';
-                        echo '<td>'.$row[5].'</td>';
-                        echo '<td>'.$row[6].'</td>';
-                        echo '<td>'.$row[7].'</td>';
-                        echo '<td>'.$row[8].'</td>';
-                        echo '<td>'.$row[9].'</td>';
-                        echo '</tr>';
-                        }
-                        mysqli_free_result($results);
-                        disconnect($mysql);
-                        }
+                    <!--Los cursos mejor calificados por maestro -->
+                    <?php
+
+                        $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/desplegarVista"; //Route to the REST web service
+                        $c = curl_init($url);
+                        $response = curl_exec($c);
+                        curl_close($c);                        
+
                         ?>
 
                   </tbody>
@@ -326,6 +337,7 @@ $p=0;
     </div>
   </div>
 </div>
+
 
 <!--=======POP-UP================================-->
 
