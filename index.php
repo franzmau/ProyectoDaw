@@ -1,6 +1,4 @@
 <?php
-  session_start();
-
   include_once("util.php");
    session_start();
 //  //require 'Slim/Slim.php';
@@ -83,6 +81,9 @@ $p=0;
 <meta name="author" content="">
 <title>REPOMA</title>
 
+
+<link href="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css" rel="stylesheet"></link>
+
 <!--AJAX--> 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
@@ -121,54 +122,57 @@ $p=0;
 
         <!-- Login -->
         <li class="dropdown"> 
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup<i class="glyphicon glyphicon-user"></i></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Ingresa o Registrate <i class="glyphicon glyphicon-user"></i></a>
                    <div class="dropdown-menu">
 
-                     <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
+              <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
               <br>
               <div class="form-group">
-                <input class="form-control" name="username" id="username" type="text" placeholder="Username" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Enter your username" required="">
+                <input class="form-control" name="username" id="username" size="10" type="text" placeholder="Matricula" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Enter your username" required="">
               </div>
               <div class="form-group">  
-                <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="">
+                <input class="form-control" name="password" id="password" size="10" type="password" placeholder="Contraseña" title="Enter your password" required="">
               </div>  
-              <button type="submit" name="login" id="btnLogin" class="btn btn-block">Login</button>
+              <button type="submit" name="login" id="btnLogin" class="btn btn-block btn-primary" >Ingresa</button>
               <hr>
               <?php if(isset($_POST['username']) && isset($_POST['password']) && !isset($_POST['uname']) && !isset($_POST['passwd']) && !isset($_POST['verify']) && !isset($_POST['email'])){
                 $u=substr(strtolower($_POST['username']),0,15);
                 $pa=substr(strtolower($_POST['password']),0,15);
-                         $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
+                         $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
                          $c = curl_init($url);
                          $response = curl_exec($c);
                          curl_close($c);
                        } 
                        ?>
-                       <a href="#" title="Fast and free sign up!" id="btnNewUser" data-toggle="collapse" data-target="#formRegister" class="small">New User? Sign-up..</a>
-                     </form>
+                       <a href="#" id="btnNewUser" data-toggle="collapse" data-target="#formRegister" class="small"><strong>¿Eres nuevo? Registrate...</strong></a>
+                     
+                </form>
 
                      <form id="formRegister" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" name="signin" class="form collapse container-fluid">
                       <br>
+
                       <div class="form-group">
-                        <input class="form-control" name="email" id="inputEmail" type="text" placeholder="Name" required="">
+                        <input class="form-control" name="email" id="inputEmail" type="text"  size="10" placeholder="Matricula" required="">
+                      </div>
+
+                      <div class="form-group">
+                        <input class="form-control" name="uname" id="inputUsername" type="text"  placeholder="Nombre" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="9" required="">
                       </div>
                       <div class="form-group">
-                        <input class="form-control" name="uname" id="inputUsername" type="text" placeholder="Username" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Choose a username" required="">
+                        <input class="form-control" name="passwd" id="inputpassword" type="password" size="10" placeholder="Contraseña" required="">
                       </div>
                       <div class="form-group">
-                        <input class="form-control" name="passwd" id="inputpassword" type="password" placeholder="Password" required="">
+                        <input class="form-control" name="verify" id="inputVerify" type="password" size="10" placeholder="Contraseña (nuevamente)" required="">
                       </div>
                       <div class="form-group">
-                        <input class="form-control" name="verify" id="inputVerify" type="password" placeholder="Password (again)" required="">
-                      </div>
-                      <div class="form-group">
-                        <button type="submit" id="btnRegister" class="btn btn-block">Sign Up</button>
+                        <button type="submit" id="btnRegister" href="#" class="btn btn-block btn-primary">Registrate</button>
 
                     
                           <?php 
                           if(isset($_POST['uname']) && isset($_POST['passwd']) && isset($_POST['verify']) && isset($_POST['email'])){
                             $u=substr(strtolower($_POST['uname']),0,15); $pa=substr(strtolower($_POST['passwd']),0,15);
                             $vfy=substr(strtolower($_POST['verify']),0,15); $mail=substr(strtolower($_POST['email']),0,15);
-                         $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/insertaUsuario/$u/$pa/$vfy/$mail"; //Route to the REST web service
+                         $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/insertaUsuario/$u/$pa/$vfy/$mail"; //Route to the REST web service
                          $c = curl_init($url);
                          $response = curl_exec($c);
                          curl_close($c);
@@ -179,7 +183,7 @@ $p=0;
 
                     <hr>
                     <div class="container-fluid">
-                      <a class="small" data-toggle="modal" role="button" href="#forgotPasswordModal">Forgot username or password?</a>
+                      <a class="small" href="#" data-toggle="modal" role="button"  data-target="#olvidaste" data-toggle="modal"><strong>¿Olvidaste tu contraseña?<strong></a>
                    </div>    
               </div>
           </li>
@@ -221,8 +225,7 @@ $p=0;
                   <tbody>
                       <!--Los profesores mejor calificados por curso-->
                       <?php
-                      echo "hola";
-                      $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/desplegarProfesores"; //Route to the REST web service
+                      $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/desplegarProfesores"; //Route to the REST web service
                       $c = curl_init($url);
                       $response = curl_exec($c);
                       curl_close($c);
@@ -255,7 +258,7 @@ $p=0;
                <tbody>
                         <!--Los cursos mejor calificados por maestro -->
                         <?php
-                         $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/desplegarCursos"; //Route to the REST web service
+                         $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/desplegarCursos"; //Route to the REST web service
                       $c = curl_init($url);
                       $response = curl_exec($c);
                       curl_close($c);
@@ -266,7 +269,7 @@ $p=0;
           </div>
           </div>
         </div>
-     <button style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+     <button style=" width:20%" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
       <div style="left:10%; position:relative"><img src="img/califica2.png"></div>
    </div>
   </div> 
@@ -279,7 +282,7 @@ $p=0;
         <h1>Estadisticas</h1>
           <h6>¿Que esperas? Checa las más nuevas evaluaciones y las no tan nuevas</h6>
             </br></br></br>
-              <div class="table-responsive" style="width:90%; margin:0 auto; border:0px green dashed;" align="center">
+              <div class="table-responsive" style="width:80%; margin:0 auto; border:0px green dashed;" align="center">
                 <table class="table table-hover" id="sample_3" style="text-align:center">
                   <thead>
                     <tr>
@@ -351,7 +354,6 @@ $p=0;
             <ul class="nav nav-tabs" role="tablist" >
                 <li class="active"><a href="#agregarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
                 <li><a href="#modificarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
-                <li><a href="#eliminarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Eliminar</h4></a></li>
             </ul>
 
             <div class="tab-content administrador" align="center">
@@ -405,10 +407,6 @@ $p=0;
 
                      </br></br>
                 </div>
-
-                <div class="tab-pane" id="eliminarP">
-
-                </div>
           </div>
         </div>
       </div>
@@ -428,7 +426,6 @@ $p=0;
             <ul class="nav nav-tabs" role="tablist" >
                 <li class="active"><a href="#agregarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
                 <li><a href="#modificarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
-                <li><a href="#eliminarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Eliminar</h4></a></li>
             </ul>
 
             <div class="tab-content administrador" align="center">
@@ -484,10 +481,6 @@ $p=0;
                     </br></br>
                   </form>           
                   </br></br>
-                  </div>
-
-                  <div class="tab-pane" id="eliminarM">
-
                   </div>
 
                 </div>
@@ -575,12 +568,67 @@ $p=0;
     </thead>
  </table>
 </div> 
-
 </section>
 
 
 
-<!--=======POP-UP PROFESOR================================
+<!=======POP-UP OLVIDASTE TU CONTRASEÑA================================-->
+<div class="modal fade" id="olvidaste" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3 class="modal-title" id="myModalLabel" style="color:#0080FF;  font-size: 100%;font-weight: bold;text-align:center">¿Haz olvidado tu contraseña? No te preocupes ¡Recuperala ahora!</h3>
+            </div>
+         <form id="helpForm" method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" name="helpForm">
+             
+             <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
+              
+                    <div id="olvidasteContraseña">
+
+                   <?php if(isset($_POST['usuarioH']) && isset($_POST['emailH'])){
+                  $uH=substr(strtolower($_POST['usuarioH']),0,15); $mailH=substr(strtolower($_POST['emailH']),0,15);
+                  $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/EnviarContraseña/$uH/$mailH"; //Route to the REST web service
+                  $c = curl_init($url);
+                  $response = curl_exec($c);
+                  curl_close($c);}?>
+
+                   </div>
+
+
+        </br>
+         <div class="form-group">
+           <label class="col-md-3 control-label">Matricula</label>
+           <div class="col-md-7">
+             <input type="text" class="form-control" name="usuario" />
+           </div>
+         </div>
+         
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Correo Electrónico</label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control" name="email" />
+            </div>
+         </div>
+
+
+            </div>
+           <div class="modal-footer">
+               <div class="form-group">
+               <div class="col-md-5 col-md-offset-3">
+               <button type="submit" class="btn btn-primary" class="btn btn-default">Enviar</button>
+               </div>
+               </div>
+           </div>
+      </form>
+       </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--=======POP-UP PROFESOR================================-->
 <div class="modal fade" id="Profesor" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -594,12 +642,12 @@ $p=0;
     </div>
   </div>
 </div>
-<<<<<<< HEAD
-=======
 
->>>>>>> 7bea2aaf557e3ea3d445512c1175fc7ab6f0aad8
-<!=======POP-UP MATERIA================================
-<div class="modal fade" id="Materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+
+
+
+<!=======POP-UP MATERIA================================-->
+<div class="modal fade" id="materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
@@ -612,7 +660,7 @@ $p=0;
     </div>
   </div>
 </div>
--->
+
 
 <!--=======POP-UP EVALUAR================================-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -625,7 +673,7 @@ $p=0;
                 <form name="evaluar" method="POST" action="servidor.php">
                  <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
         
-                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></div></div>
+                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT distinct p.id_maestro, p.nombre FROM profesor p, imparten i where p.id_maestro=i.id_prof"); ?></div></div>
                     </br>
                     <div><h4 style="color: #536270">Materia</h4>
                     <div colspan="2" id="h" class="h"></div></div>
@@ -647,6 +695,14 @@ $p=0;
     </div>
   </div>
 </footer>
+
+
+
+
+<script src="//oss.maxcdn.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+ 
+<script type="text/javascript" src="validator.js"></script>
 
 
 <!--SCRIPT POP-UP--> 

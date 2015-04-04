@@ -67,7 +67,7 @@ $app->get('/desplegarCursos', function(){
                         {
                           $idMateria=$row[4];
 
-                        echo '<td align="left"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"><a href="#" title="Consideraciones" type="submit" data-target="#Materia" data-toggle="modal" onclick="ElegirMateria('.$idMateria.')"></i>   '.$row[0].'</a></strong></td>';
+                        echo '<td align="left"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"><a href="#" title="Consideraciones" type="submit" data-target="#materia" data-toggle="modal" onclick="ElegirMateria('.$idMateria.')"></i>   '.$row[0].'</a></strong></td>';
                         echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
                         echo '<td><span class="badge">'.$row[2].'</span></td>';
                         echo '<td><span class="label label-success">'.$row[1].'</span></td>';
@@ -147,13 +147,28 @@ $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
 });
 
 
-
  $app->get('/materias/:input', function($profe){
                       
-    dropdown("Materia", "SELECT m.clave, m.descripcion FROM imparten i, materia m WHERE m.clave=i.id_mat and i.id_prof='$profe'");
+    dropdown("Materia", "SELECT distinct m.clave, m.descripcion FROM imparten i, materia m WHERE m.clave=i.id_mat and i.id_prof='$profe'");
                     
 });
 
+
+$app->get('/EnviarContraseña/:$uH/:$mailH', function($userH,$mailH){
+                      $mysql=connect();
+                      $query="SELECT contraseña FROM `usuario` WHERE `matricula` ='".$userH."'";
+                        $results = $mysql->query($query);
+                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+                           $nombre="SELECT usuario FROM `usuario` WHERE `matricula` ='".$userH."'";
+                           $fecha = date("d-m-Y");
+                           $asunto = "REPOMA || Contraseña";
+                           $comentario = " Hola ".$nombre.", si tuviste problemas para ingresar a REPOMA esta es tu contraseña ".$query." Enviado:".$fecha." |REPOMA";
+                           mail($mailH, $asunto, $comentario);
+                        }
+                      mysqli_free_result($results);
+                      disconnect($mysql);
+});
 
 
 

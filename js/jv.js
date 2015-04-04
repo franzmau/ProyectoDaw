@@ -75,26 +75,24 @@ function poner(p){
    }
 
  }
+ 
  function agregar(p){
 
    request=getRequestObject();
    if(request!=null)
    {
 
-     var url='http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/materias/'+p;
+     var url='http://localhost/REPOMA/vendor/slim/slim/index.php/materias/'+p;
      request.open('GET',url,true);
 
-     request.onreadystatechange = 
-     function() { 
+     request.onreadystatechange = function() { 
       if((request.readyState==4)){
                     // Asynchronous response has arrived
-
                     var ajaxResponse=document.getElementById('h');
 
                     ajaxResponse.innerHTML=request.responseText;
 
                     ajaxResponse.style.visibility="visible";
-
                   }     
                 };
                 request.send(null);

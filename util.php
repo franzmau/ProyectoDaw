@@ -1,10 +1,8 @@
-
-
 <?php
 
 header("Content-Type: text/html;charset=utf-8");
 function connect() {
-  $mysql = mysqli_connect("localhost","root","7797nebur","Proyecto daw");
+  $mysql = $mysql = mysqli_connect("localhost","root","","ProyectoDaw2");
         //$mysql = mysqli_connect("localhost","root","","ProyectoDaw2");
         mysqli_set_charset($mysql,'utf8');
         return $mysql;
