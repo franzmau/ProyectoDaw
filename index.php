@@ -11,6 +11,8 @@
 // //$app->run();
 // //*/
 
+  $slimpath="http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/";
+
 if(isset($_GET["sal"])){ 
  
 echo '<script language="javascript">';
@@ -138,7 +140,7 @@ $p=0;
               <?php if(isset($_POST['username']) && isset($_POST['password']) && !isset($_POST['uname']) && !isset($_POST['passwd']) && !isset($_POST['verify']) && !isset($_POST['email'])){
                 $u=substr(strtolower($_POST['username']),0,15);
                 $pa=substr(strtolower($_POST['password']),0,15);
-                         $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
+                         $url = $slimpath."validaUsuario/$u/$pa"; //Route to the REST web service
                          $c = curl_init($url);
                          $response = curl_exec($c);
                          curl_close($c);
@@ -172,7 +174,7 @@ $p=0;
                           if(isset($_POST['uname']) && isset($_POST['passwd']) && isset($_POST['verify']) && isset($_POST['email'])){
                             $u=substr(strtolower($_POST['uname']),0,15); $pa=substr(strtolower($_POST['passwd']),0,15);
                             $vfy=substr(strtolower($_POST['verify']),0,15); $mail=substr(strtolower($_POST['email']),0,15);
-                         $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/insertaUsuario/$u/$pa/$vfy/$mail"; //Route to the REST web service
+                         $url = $slimpath."insertaUsuario/$u/$pa/$vfy/$mail"; //Route to the REST web service
                          $c = curl_init($url);
                          $response = curl_exec($c);
                          curl_close($c);
@@ -225,7 +227,7 @@ $p=0;
                   <tbody>
                       <!--Los profesores mejor calificados por curso-->
                       <?php
-                      $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/desplegarProfesores"; //Route to the REST web service
+                      $url = $slimpath."desplegarProfesores"; //Route to the REST web service
                       $c = curl_init($url);
                       $response = curl_exec($c);
                       curl_close($c);
@@ -258,7 +260,7 @@ $p=0;
                <tbody>
                         <!--Los cursos mejor calificados por maestro -->
                         <?php
-                         $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/desplegarCursos"; //Route to the REST web service
+                         $url = $slimpath."desplegarCursos"; //Route to the REST web service
                       $c = curl_init($url);
                       $response = curl_exec($c);
                       curl_close($c);
@@ -588,7 +590,7 @@ $p=0;
 
                    <?php if(isset($_POST['usuarioH']) && isset($_POST['emailH'])){
                   $uH=substr(strtolower($_POST['usuarioH']),0,15); $mailH=substr(strtolower($_POST['emailH']),0,15);
-                  $url = "http://localhost/REPOMA/vendor/slim/slim/index.php/EnviarContraseña/$uH/$mailH"; //Route to the REST web service
+                  $url = $slimpath."EnviarContraseña/$uH/$mailH"; //Route to the REST web service
                   $c = curl_init($url);
                   $response = curl_exec($c);
                   curl_close($c);}?>
