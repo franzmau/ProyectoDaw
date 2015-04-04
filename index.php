@@ -1,4 +1,3 @@
-
 <?php
   session_start();
   $_SESSION['usuario']=" ";
@@ -8,6 +7,12 @@
 echo '<script language="javascript">';
 echo 'document.getElementById("mensaje").innerHTML = <div class="alert alert-success">Paragraph changed!</div>';
 echo '</script>';
+
+echo '<script language="javascript">';
+echo 'des();';
+echo '</script>';
+
+
 }
 $p=0;
 ?>
@@ -37,7 +42,7 @@ $p=0;
 <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,600,600italic' rel='stylesheet' type='text/css'>
 </head>
-
+<script src="js/ses.js"></script>
 <body id="page-top" class="index">
 
 
@@ -58,7 +63,7 @@ $p=0;
 
         <!-- Login -->
         <li class="dropdown"> 
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup<i class="glyphicon glyphicon-user"></i></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup <div id="usuarioss"></div> <i class="glyphicon glyphicon-user"></i></a>
                    <div class="dropdown-menu">
 
                      <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
@@ -71,7 +76,7 @@ $p=0;
               </div>  
               <button type="submit" name="login" id="btnLogin" class="btn btn-block">Login</button>
               <hr>
-              <?php if(isset($_POST['username']) && isset($_POST['password']) && !isset($_POST['uname']) && !isset($_POST['passwd']) && !isset($_POST['verify']) && !isset($_POST['email'])){
+               <?php if(isset($_POST['username']) && isset($_POST['password']) && !isset($_POST['uname']) && !isset($_POST['passwd']) && !isset($_POST['verify']) && !isset($_POST['email'])){
                 $u=substr(strtolower($_POST['username']),0,15);
                 $pa=substr(strtolower($_POST['password']),0,15);
                          $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
@@ -80,6 +85,7 @@ $p=0;
                          curl_close($c);
                        } 
                        ?>
+                       
                        <a href="#" title="Fast and free sign up!" id="btnNewUser" data-toggle="collapse" data-target="#formRegister" class="small">New User? Sign-up..</a>
                      </form>
 
@@ -127,6 +133,7 @@ $p=0;
   <!-- /.container-fluid --> 
 </nav>
 
+
 <!-- Header -->
 <header>
 
@@ -135,6 +142,7 @@ $p=0;
     <div class="intro-text">
       <div class="intro-lead-in">Bienvenido al sistema de Retroalimentación a Profesores y Materias</div>
       <div class="intro-heading">REPOMA</div>
+     
       <a href="#profesores" class="page-scroll btn btn-xl"><i class="fa fa-angle-double-down fa-4x"></i></a> </div>
   </div>
   </div>
@@ -328,6 +336,7 @@ $p=0;
       <div class="col-md-4">
     </div>
   </div>
+
 </footer>
 
 
@@ -338,6 +347,9 @@ $p=0;
 
 <!--Opciones POP-UP--> 
 <script src="js/jv.js"></script>
+
+<!-- Intento de funciones de sesion -->
+
 
 <!-- jQuery --> 
 <script src="js/jquery.js"></script> 
@@ -357,6 +369,7 @@ $p=0;
 <script type="text/javascript" src="js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="js/DT_bootstrap.js"></script>
 <script src="js/dynamic-table.js"></script>
+
 
  </body>
 </html>

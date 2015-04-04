@@ -9,6 +9,7 @@
  * If you are using Composer, you can skip this step.
  */
 require 'Slim/Slim.php';
+
 session_start();
 
 \Slim\Slim::registerAutoloader();
@@ -37,14 +38,10 @@ $app = new \Slim\Slim();
 
 $app->get('/desplegarProfesores', function(){
                       $mysql=connect();
-                      echo "2";
                       $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor), d.dep, p.id_maestro FROM profesor p, evaluan e, departamento d where p.id_maestro=e.idProfesor and p.dep = d.id Group by e.idProfesor ORDER BY p.califiacion desc";
-                      echo "3";
                       $results = $mysql->query($query);
-                      echo "4";
                       while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                       {
-                      echo "5";
                       $idProfesor=$row[4];
                       echo '<tr>';
                       echo '<td align="left"><strong><i class="fa fa-lg fa-user" style="color:#536270"><a href="#" title="Consideraciones" type="submit" data-target="#Profesor" data-toggle="modal" onclick="ElegirProfesor('.$idProfesor.')"></i>   '.$row[0].'</a></strong></td>';
@@ -86,9 +83,12 @@ $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
                         if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                         {
                             if($row[3]==$password){
-                                echo '<script language="javascript">';
-                                echo 'alert("Saludos usuario : '.$user.'")';
+                                $_SESSION['usuario']=$user;
+                                echo '<script language="javascript">des("'.$user.'");';
                                 echo '</script>';
+                                // echo '<script language="javascript">';
+                                // echo 'document.getElementById("usuario").innerHTML = <div class="alert alert-success">usuario!</div>';
+                                // echo '</script>';
                             }else{
                                 echo '<script language="javascript">';
                                 echo 'alert("Contraseña equivocada")';
@@ -120,38 +120,6 @@ $app->get('/insertaUsuario/:usr/:passwd/:vfy/:mail', function($usr,$password,$ve
                         }
 });
 
-$app->get('/validaUsuario/:usr/:passwd', function($user,$password){
-                      $mysql=connect();
-                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$user."'";
-                        $results = $mysql->query($query);
-                        echo $query;
-                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                            if($row[3]==$password){
-                                $_SESSION['usuario']=$user;
-                                $u=$_SESSION['usuario'];
-                                echo '<script language="javascript">';
-                                echo 'alert("Saludos usuario : '.$u.'")';
-                                echo '</script>';
-                                
-
-                            }else{
-                                echo '<script language="javascript">';
-                                echo 'alert("Contraseña equivocada")';
-                                echo '</script>';
-                            }
-                        }else{
-                            echo '<script language="javascript">';
-                                echo 'alert("Contraseña o Usuario equivocado")';
-                                echo '</script>';
-                        }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
-
-});
-
-
-
  $app->get('/materias/:input', function($profe){
                       
     dropdown("Materia", "SELECT m.clave, m.descripcion FROM imparten i, materia m WHERE m.clave=i.id_mat and i.id_prof='$profe'");
@@ -160,7 +128,6 @@ $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
 
 $app->get('/validacion', function(){
     $u=$_SESSION['usuario'];
-
         echo "".$u;                    
 });
 
