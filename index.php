@@ -2,7 +2,7 @@
   session_start();
   include_once("util.php");
 
-  $slimpath="http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/";
+  $slimpath="http://localhost/REPOMA/vendor/slim/slim/index.php/";
 
 
 
@@ -92,7 +92,7 @@ $p=0;
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,600,600italic' rel='stylesheet' type='text/css'>
 </head>
 <script src="js/ses.js"></script>
-<body id="page-top" class="index">
+<body id="page-top" class="index" onload="sesionEstado()">
   
 
 <div class="mensaje"></div>
@@ -112,15 +112,25 @@ $p=0;
 
         <!-- Login -->
         <li class="dropdown"> 
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup <div id="usuarioss"></div> <i class="glyphicon glyphicon-user"></i></a>
-                 <?php 
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><div id="usuarioss"><i class="glyphicon glyphicon-user"></i>Ingresa o Registrate</div></a>                 
+             <?php 
                     if(isset($_SESSION["usuario"])){ 
                       echo '<script language="javascript">des("'.$_SESSION['usuario'].'"); </script>';
                     }
                   ?>
-                   <div class="dropdown-menu">
 
-                     <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
+              <div class="dropdown-menu" id="menuInicial">
+
+              <div id="closeSession">
+              <form class="form container-fluid">
+              </br>
+              <button type='submit' onclick='cerrarSesion()' class='btn btn-block btn-primary'>Salir</button>
+              </br>
+              </form>
+              </div>
+
+<div id="openSession">
+               <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
               <br>
               <div class="form-group">
                 <input class="form-control" name="username" id="username" size="10" type="text" placeholder="Matricula" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Enter your username" required="">
@@ -144,7 +154,7 @@ $p=0;
                         $results = $mysql->query($query);
                         if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
                         {
-                            if($row[3]==$p){
+                            if($row[3]==$pa){
                                 $_SESSION['usuario']="".$row[2];
                                 echo '<script language="javascript">des("'.$_SESSION['usuario'].'");';
                                 echo '</script>';
@@ -196,11 +206,14 @@ $p=0;
                        ?> 
                      </div>
                    </form>
-
                     <hr>
+
                     <div class="container-fluid">
                       <a class="small" href="#" data-toggle="modal" role="button"  data-target="#olvidaste" data-toggle="modal"><strong>¿Olvidaste tu contraseña?<strong></a>
-                   </div>    
+                   </div>
+
+
+</div>  
               </div>
           </li>
        </ul>
@@ -490,6 +503,7 @@ $p=0;
  </div>  
 </br></br></br></br>
 
+
 <!-- REGISTRAR / MODIFICAR / ELIMINAR RELACION PROFESOR-CURSO -->
 <div align="center" class="table-responsive">
  <table style="width:90%; height:90%" class="especial">
@@ -568,7 +582,8 @@ $p=0;
 
 
 
-<!=======POP-UP OLVIDASTE TU CONTRASEÑA================================-->
+
+<!--=======POP-UP OLVIDASTE TU CONTRASEÑA================================-->
 <div class="modal fade" id="olvidaste" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -623,7 +638,6 @@ $p=0;
 </div>
 
 
-
 <!--=======POP-UP PROFESOR================================-->
 <div class="modal fade" id="Profesor" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
@@ -638,8 +652,8 @@ $p=0;
     </div>
   </div>
 </div>
-<!=======POP-UP MATERIA================================
-<div class="modal fade" id="Materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+<!--=======POP-UP MATERIAS================================-->
+<div class="modal fade" id="materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
@@ -652,7 +666,7 @@ $p=0;
     </div>
   </div>
 </div>
--->
+
 <!--=======POP-UP================================-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
@@ -691,10 +705,9 @@ $p=0;
 
 
 
-
+<!--SCRIPT BOOTSTRAP VALIDATOR --> 
 <script src="//oss.maxcdn.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
- 
 <script type="text/javascript" src="validator.js"></script>
 
 

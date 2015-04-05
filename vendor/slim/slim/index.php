@@ -174,6 +174,12 @@ $app->get('/desplegarVista', function(){
     disconnect($mysql);                  
 });
 
+
+$app->get('/cerrarSesion', function(){
+session_destroy();
+setcookie();
+});
+
 // GET route
 $app->get(
     '/',
