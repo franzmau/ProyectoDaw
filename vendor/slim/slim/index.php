@@ -9,7 +9,7 @@
  * If you are using Composer, you can skip this step.
  */
 require 'Slim/Slim.php';
-
+session_start();
 
 \Slim\Slim::registerAutoloader();
 
@@ -36,36 +36,32 @@ $app = new \Slim\Slim();
  */
 
 $app->get('/desplegarProfesores', function(){
-                      $mysql=connect();
-                      echo "2";
-                      $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor), d.dep, p.id_maestro FROM profesor p, evaluan e, departamento d where p.id_maestro=e.idProfesor and p.dep = d.id Group by e.idProfesor ORDER BY p.califiacion desc";
-                      echo "3";
-                      $results = $mysql->query($query);
-                      echo "4";
-                      while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                      {
-                      echo "5";
-                      $idProfesor=$row[4];
-                      echo '<tr>';
-                      echo '<td align="left"><strong><i class="fa fa-lg fa-user" style="color:#536270"><a href="#" title="Consideraciones" type="submit" data-target="#Profesor" data-toggle="modal" onclick="ElegirProfesor('.$idProfesor.')"></i>   '.$row[0].'</a></strong></td>';
-                      echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
-                      echo '<td><span class="badge">'.$row[2].'</span></td>';
-                      echo '<td><span class="label label-success">'.$row[1].'</span></td>';
-                      echo '</tr>';
-                      }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
-                      
+  $mysql=connect();
+  $query="SELECT p.nombre, p.califiacion, Count(e.idProfesor), d.dep, p.id_maestro FROM profesor p, evaluan e, departamento d where p.id_maestro=e.idProfesor and p.dep = d.id Group by e.idProfesor ORDER BY p.califiacion desc";
+  $results = $mysql->query($query);
+  while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+  {
+      $idProfesor=$row[4];
+      echo '<tr>';
+      echo '<td align="left"><strong><i class="fa fa-lg fa-user" style="color:#536270"><a href="#" title="Consideraciones" type="submit" data-target="#Profesor" data-toggle="modal" onclick="ElegirProfesor('.$idProfesor.')"></i>   '.$row[0].'</a></strong></td>';
+      echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
+      echo '<td><span class="badge">'.$row[2].'</span></td>';
+      echo '<td><span class="label label-success">'.$row[1].'</span></td>';
+      echo '</tr>';
+  }
+  mysqli_free_result($results);
+  disconnect($mysql);
+
 
 });
 
 $app->get('/desplegarCursos', function(){
-                        $mysql=connect();
-                        $query="SELECT m.descripcion, m.calif, Count(e.idMateria), d.dep, m.clave FROM materia m, evaluan e, departamento d where m.clave=e.idMateria and d.id=m.dep Group by e.idMateria ORDER BY m.calif desc";
-                        $results = $mysql->query($query);
-                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                          $idMateria=$row[4];
+    $mysql=connect();
+    $query="SELECT m.descripcion, m.calif, Count(e.idMateria), d.dep, m.clave FROM materia m, evaluan e, departamento d where m.clave=e.idMateria and d.id=m.dep Group by e.idMateria ORDER BY m.calif desc";
+    $results = $mysql->query($query);
+    while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+    {
+      $idMateria=$row[4];
 
                         echo '<td align="left"><strong><i class="glyphicon glyphicon-book" style="color:#536270;"><a href="#" title="Consideraciones" type="submit" data-target="#materia" data-toggle="modal" onclick="ElegirMateria('.$idMateria.')"></i>   '.$row[0].'</a></strong></td>';
                         echo '<td><span class="label label-warning">'.$row[3].'</span></td>';
@@ -79,28 +75,28 @@ $app->get('/desplegarCursos', function(){
 });
 
 $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
-                      $mysql=connect();
+  $mysql=connect();
 
-                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$user."'";
-                        $results = $mysql->query($query);
-                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                            if($row[3]==$password){
-                                echo '<script language="javascript">';
-                                echo 'alert("Saludos usuario : '.$user.'")';
-                                echo '</script>';
-                            }else{
-                                echo '<script language="javascript">';
-                                echo 'alert("Contraseña equivocada")';
-                                echo '</script>';
-                            }
-                        }else{
-                            echo '<script language="javascript">';
-                                echo 'alert("Contraseña o Usuario equivocado")';
-                                echo '</script>';
-                        }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
+  $query="SELECT * FROM `usuario` WHERE `matricula` ='".$user."'";
+  $results = $mysql->query($query);
+  if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+  {
+    if($row[3]==$password){
+        $_SESSION['usuario']="".$user;
+        // echo '<script language="javascript">des("'.$_SESSION['usuario'].'");';
+        // echo '</script>';
+    }else{
+        echo '<script language="javascript">';
+        echo 'alert("Contraseña equivocada")';
+        echo '</script>';
+    }
+}else{
+    echo '<script language="javascript">';
+    echo 'alert("Contraseña o Usuario equivocado")';
+    echo '</script>';
+}
+mysqli_free_result($results);
+disconnect($mysql);
 
 });
 
@@ -120,31 +116,8 @@ $app->get('/insertaUsuario/:usr/:passwd/:vfy/:mail', function($usr,$password,$ve
                         }
 });
 
-$app->get('/validaUsuario/:usr/:passwd', function($user,$password){
-                      $mysql=connect();
-                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$user."'";
-                        $results = $mysql->query($query);
-                        echo $query;
-                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
-                            if($row[3]==$password){
-                                echo '<script language="javascript">';
-                                echo 'alert("Saludos usuario : '.$user.'")';
-                                echo '</script>';
-                            }else{
-                                echo '<script language="javascript">';
-                                echo 'alert("Contraseña equivocada")';
-                                echo '</script>';
-                            }
-                        }else{
-                            echo '<script language="javascript">';
-                                echo 'alert("Contraseña o Usuario equivocado")';
-                                echo '</script>';
-                        }
-                      mysqli_free_result($results);
-                      disconnect($mysql);
+ 
 
-});
 
 
  $app->get('/materias/:input', function($profe){
@@ -153,6 +126,14 @@ $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
                     
 });
 
+$app->get('/validacion', function(){
+    if(isset($_SESSION['usuario'])){
+        $u=$_SESSION['usuario'];
+    }else{
+        $u="1";
+    }
+    echo $u;                    
+});
 
 $app->get('/EnviarContraseña/:$uH/:$mailH', function($userH,$mailH){
                       $mysql=connect();
@@ -170,7 +151,28 @@ $app->get('/EnviarContraseña/:$uH/:$mailH', function($userH,$mailH){
                       disconnect($mysql);
 });
 
-
+$app->get('/desplegarVista', function(){
+    $mysql=connect();
+    $query="SELECT profesor, materia, usuario, disponible, habilidades, compromiso, dificultad_prof, consistencia, interesante, dificultad_mat from vista";
+    $results = $mysql->query($query);
+    while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+    {
+        echo '<tr>';
+        echo '<td><strong>'.$row[0].'<strong></td>';
+        echo '<td><strong>'.$row[1].'<strong></td>';
+        echo '<td><span class="label label-primary">'.$row[2].'</span></td>';
+        echo '<td>'.$row[3].'</td>';
+        echo '<td>'.$row[4].'</td>';
+        echo '<td>'.$row[5].'</td>';
+        echo '<td>'.$row[6].'</td>';
+        echo '<td>'.$row[7].'</td>';
+        echo '<td>'.$row[8].'</td>';
+        echo '<td>'.$row[9].'</td>';
+        echo '</tr>';
+    }
+    mysqli_free_result($results);
+    disconnect($mysql);                  
+});
 
 // GET route
 $app->get(

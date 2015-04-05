@@ -1,3 +1,5 @@
+
+
 <?php
 
 header("Content-Type: text/html;charset=utf-8");
@@ -65,22 +67,20 @@ function regresa($query)
     return $row["nombre"];  
     
 }
-
 function regresa1($query,$a)
 {
     $mysql = connect();
 
     
-
     $result=mysqli_query($mysql,$query);
     $row=mysqli_fetch_assoc($result);
     
+
+
     
     return $row[$a];    
     
 }
-
-
 function crea($query){
     $mysql = connect();
 
@@ -286,6 +286,8 @@ disconnect($mysql);
 
 }
 
+
+
 function probar ($a1,$a2){
     switch($a1){
         case 1:
@@ -426,4 +428,4 @@ function editar($nombre,$dep,$index,$status){
    disconnect($mysql);
 
 }
-
+?>

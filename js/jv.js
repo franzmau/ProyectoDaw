@@ -82,7 +82,8 @@ function poner(p){
    if(request!=null)
    {
 
-     var url='http://localhost/REPOMA/vendor/slim/slim/index.php/materias/'+p;
+     // var url='http://localhost/REPOMA/vendor/slim/slim/index.php/materias/'+p;
+     var url='http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/materias/'+p;
      request.open('GET',url,true);
 
      request.onreadystatechange = function() { 
@@ -114,4 +115,6 @@ function poner(p){
     return(null);
   }
 }
+
+
 

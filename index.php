@@ -1,22 +1,15 @@
 <?php
+  session_start();
   include_once("util.php");
-   session_start();
-//  //require 'Slim/Slim.php';
-// //\Slim\Slim::registerAutoloader();
-
-// //$app->get('/hello/:name', function ($name) {
-//   //  echo "Hello, $name";
-// //});
-
-// //$app->run();
-// //*/
 
   $slimpath="http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/";
+
+
 
 if(isset($_GET["sal"])){ 
  
 echo '<script language="javascript">';
-echo 'alert("Se agrego la evaluacion a profesor y materia")';
+echo 'document.getElementById("mensaje").innerHTML = <div class="alert alert-success">Paragraph changed!</div>';
 echo '</script>';
 }
 
@@ -77,17 +70,12 @@ $p=0;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
 <title>REPOMA</title>
-
-
-<link href="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css" rel="stylesheet"></link>
-
-<!--AJAX--> 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -103,9 +91,9 @@ $p=0;
 <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,600,600italic' rel='stylesheet' type='text/css'>
 </head>
-
+<script src="js/ses.js"></script>
 <body id="page-top" class="index">
-
+  
 
 <div class="mensaje"></div>
 <!-- Navigation -->
@@ -124,10 +112,15 @@ $p=0;
 
         <!-- Login -->
         <li class="dropdown"> 
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Ingresa o Registrate <i class="glyphicon glyphicon-user"></i></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Login or Signup <div id="usuarioss"></div> <i class="glyphicon glyphicon-user"></i></a>
+                 <?php 
+                    if(isset($_SESSION["usuario"])){ 
+                      echo '<script language="javascript">des("'.$_SESSION['usuario'].'"); </script>';
+                    }
+                  ?>
                    <div class="dropdown-menu">
 
-              <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
+                     <form id="formLogin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form container-fluid">
               <br>
               <div class="form-group">
                 <input class="form-control" name="username" id="username" size="10" type="text" placeholder="Matricula" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Enter your username" required="">
@@ -140,10 +133,33 @@ $p=0;
               <?php if(isset($_POST['username']) && isset($_POST['password']) && !isset($_POST['uname']) && !isset($_POST['passwd']) && !isset($_POST['verify']) && !isset($_POST['email'])){
                 $u=substr(strtolower($_POST['username']),0,15);
                 $pa=substr(strtolower($_POST['password']),0,15);
-                         $url = $slimpath."validaUsuario/$u/$pa"; //Route to the REST web service
-                         $c = curl_init($url);
-                         $response = curl_exec($c);
-                         curl_close($c);
+                         // $url = "http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validaUsuario/$u/$pa"; //Route to the REST web service
+                         // $c = curl_init($url);
+                         // $response = curl_exec($c);
+                         // curl_close($c);
+
+                       $mysql=connect();
+
+                      $query="SELECT * FROM `usuario` WHERE `matricula` ='".$u."'";
+                        $results = $mysql->query($query);
+                        if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
+                        {
+                            if($row[3]==$p){
+                                $_SESSION['usuario']="".$u;
+                                echo '<script language="javascript">des("'.$_SESSION['usuario'].'");';
+                                echo '</script>';
+                            }else{
+                                echo '<script language="javascript">';
+                                echo 'alert("Contraseña equivocada")';
+                                echo '</script>';
+                            }
+                        }else{
+                            echo '<script language="javascript">';
+                                echo 'alert("Contraseña o Usuario equivocado")';
+                                echo '</script>';
+                        }
+                      mysqli_free_result($results);
+                      disconnect($mysql);
                        } 
                        ?>
                        <a href="#" id="btnNewUser" data-toggle="collapse" data-target="#formRegister" class="small"><strong>¿Eres nuevo? Registrate...</strong></a>
@@ -152,11 +168,9 @@ $p=0;
 
                      <form id="formRegister" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" name="signin" class="form collapse container-fluid">
                       <br>
-
                       <div class="form-group">
                         <input class="form-control" name="email" id="inputEmail" type="text"  size="10" placeholder="Matricula" required="">
                       </div>
-
                       <div class="form-group">
                         <input class="form-control" name="uname" id="inputUsername" type="text"  placeholder="Nombre" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="9" required="">
                       </div>
@@ -205,7 +219,7 @@ $p=0;
       <div class="intro-lead-in">Bienvenido al sistema de Retroalimentación a Profesores y Materias</div>
       <div class="intro-heading">REPOMA</div>
       <a href="#profesores" class="page-scroll btn btn-xl"><i class="fa fa-angle-double-down fa-4x"></i></a> </div>
-    </div>
+  </div>
   </div>
 </header>
 
@@ -236,8 +250,9 @@ $p=0;
                   </tbody>
                 </table>
              </div>
-       </div>
-      <button type="submit" style="width:20%" data-target="#myModal" class="btn btn-lg btn-success" onclick="AccionVentana2()" data-toggle="modal">Evaluar</button> 
+          </div>
+      <button id="eval1" style=" width:20%; height:60%;" type="submit" data-target="#myModal" class="btn btn-lg btn-success" onclick="evalValidation()" >Evaluar</button> 
+   	<div id="val"></div>        
    </br>
 <div style="right:10%; position:relative"><img src="img/califica.png"><div>
 </section>
@@ -258,9 +273,9 @@ $p=0;
                </thead>
                       
                <tbody>
-                        <!--Los cursos mejor calificados por maestro -->
-                        <?php
-                         $url = $slimpath."desplegarCursos"; //Route to the REST web service
+                      <!--Los cursos mejor calificados por maestro -->
+                      <?php
+                      $url = $slimpath."desplegarCursos"; //Route to the REST web service
                       $c = curl_init($url);
                       $response = curl_exec($c);
                       curl_close($c);
@@ -269,15 +284,13 @@ $p=0;
               </tbody>
             </table>
           </div>
-          </div>
         </div>
-     <button style=" width:20%" type="button" data-target="#myModal" class="btn btn-lg btn-success" data-toggle="modal">Evaluar</button>
+       </div>
+     <button id="eval2" style=" width:20%; height:60%;" type="button" data-target="#myModal" class="btn btn-lg btn-success" onclick="evalValidation()">Evaluar</button>
       <div style="left:10%; position:relative"><img src="img/califica2.png"></div>
-   </div>
+    </div>
   </div> 
 </section>
-
-
 
 <!-- Estadisticas -->
 <section id="estadisticas" align="center">
@@ -301,33 +314,14 @@ $p=0;
                      </tr>
                   </thead>   
                   <tbody>
-                        <!--Los cursos mejor calificados por maestro -->
-                        <?php
-                         desplegarVista();
+                    <!--Los cursos mejor calificados por maestro -->
+                    <?php
 
-                        function desplegarVista(){
-                        $mysql=connect();
-                        $query="SELECT profesor, materia, usuario, disponible, habilidades, compromiso, dificultad_prof, consistencia, interesante, dificultad_mat from vista";
-                        $results = $mysql->query($query);
-                        while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
-                        {
+                        $url = $slimpath."desplegarVista"; //Route to the REST web service
+                        $c = curl_init($url);
+                        $response = curl_exec($c);
+                        curl_close($c);                        
 
-                        echo '<tr>';
-                        echo '<td><strong>'.$row[0].'<strong></td>';
-                        echo '<td><strong>'.$row[1].'<strong></td>';
-                        echo '<td><span class="label label-primary">'.$row[2].'</span></td>';
-                        echo '<td>'.$row[3].'</td>';
-                        echo '<td>'.$row[4].'</td>';
-                        echo '<td>'.$row[5].'</td>';
-                        echo '<td>'.$row[6].'</td>';
-                        echo '<td>'.$row[7].'</td>';
-                        echo '<td>'.$row[8].'</td>';
-                        echo '<td>'.$row[9].'</td>';
-                        echo '</tr>';
-                        }
-                        mysqli_free_result($results);
-                        disconnect($mysql);
-                        }
                         ?>
 
                   </tbody>
@@ -644,12 +638,8 @@ $p=0;
     </div>
   </div>
 </div>
-
-
-
-
-<!=======POP-UP MATERIA================================-->
-<div class="modal fade" id="materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+<!=======POP-UP MATERIA================================
+<div class="modal fade" id="Materia" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
@@ -662,9 +652,8 @@ $p=0;
     </div>
   </div>
 </div>
-
-
-<!--=======POP-UP EVALUAR================================-->
+-->
+<!--=======POP-UP================================-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -675,7 +664,7 @@ $p=0;
                 <form name="evaluar" method="POST" action="servidor.php">
                  <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
         
-                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT distinct p.id_maestro, p.nombre FROM profesor p, imparten i where p.id_maestro=i.id_prof"); ?></div></div>
+                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></div></div>
                     </br>
                     <div><h4 style="color: #536270">Materia</h4>
                     <div colspan="2" id="h" class="h"></div></div>
@@ -688,7 +677,9 @@ $p=0;
     </div>
   </div>
 </div>
-  <!--PIE DE PAGINA -->
+
+<!--=======POP-UP================================-->
+
 <footer>
   <div class="container">
     <div class="row">
@@ -709,6 +700,8 @@ $p=0;
 
 <!--SCRIPT POP-UP--> 
 <script src="https://code.jquery.com/jquery.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!--Opciones POP-UP--> 
 <script src="js/jv.js"></script>
