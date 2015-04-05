@@ -11,10 +11,8 @@ function evalValidation(){
       if((request.readyState==4)){
         var a = request.responseText.trim();
         if( a == "1"){
-          alert("d"+a+"s");
           alert("Debes logearte primero");
         }else{
-          alert("d"+a+"s");
               $('#myModal').modal('show');
         }
 

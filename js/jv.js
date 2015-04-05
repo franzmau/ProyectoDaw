@@ -50,8 +50,7 @@ function ElegirMateria(idMateria)
  metodoAjax("valor2="+idMateria,"recibeM.php","cuerpo");
 }
 
-function poner(p){
-  
+function poner(p,state){
   var x = document.getElementById("profesor").selectedIndex;
     // var aux= document.getElementsByTagName("option")[x].value;
       //    var a= document.getElementsByTagName("option")[y].value;
@@ -59,7 +58,10 @@ function poner(p){
       if(x!=0)
       {
        document.getElementById('h').style.visibility= 'visible' ; 
-       agregar(x); 
+       if(state==0){
+          agregar(x);
+       }
+      
        var y = document.getElementById("Materia").selectedIndex;
        y+0;
        if(y!=0){
@@ -75,6 +77,8 @@ function poner(p){
    }
 
  }
+
+
  
  function agregar(p){
 

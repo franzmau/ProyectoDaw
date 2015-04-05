@@ -93,8 +93,13 @@ function dropdown($name, $query) {
     $mysql = connect();
 
     $results = $mysql->query($query);
+    if($name == "profesor"){
+        echo "\t<select onchange=\"poner(this.value,0)\" id=\"".$name."\" name=\"" .$name ."\">\n";    
+    }else{
+        echo "\t<select  onchange=\"poner(this.value,1)\" id=\"".$name."\" name=\"" .$name ."\">\n";  
+    }
 
-    echo "\t<select onchange=\"poner(this.value)\" id=\"".$name."\" name=\"" .$name ."\">\n";
+    
     echo "\t\t <option value=0 name=0> --Selecciona uno-- </option>\n ";
     while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) {
         echo "\t\t<option id=\"" .$row[0] ."\" name=\"" .$row[0] ."\" value=\"" .$row[0] ."\">" .$row[1] ."</option>\n"; 

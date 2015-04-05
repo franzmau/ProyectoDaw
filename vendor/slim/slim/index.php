@@ -82,7 +82,7 @@ $app->get('/validaUsuario/:usr/:passwd', function($user,$password){
   if($row = mysqli_fetch_array($results, MYSQLI_BOTH)) 
   {
     if($row[3]==$password){
-        $_SESSION['usuario']="".$user;
+        $_SESSION['usuario']="".$row[2];
         // echo '<script language="javascript">des("'.$_SESSION['usuario'].'");';
         // echo '</script>';
     }else{
