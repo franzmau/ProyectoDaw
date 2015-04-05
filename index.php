@@ -310,7 +310,7 @@ $p=0;
         <h1>Estadisticas</h1>
           <h6>¿Que esperas? Checa las más nuevas evaluaciones y las no tan nuevas</h6>
             </br></br></br>
-              <div class="table-responsive" style="width:80%; margin:0 auto; border:0px green dashed;" align="center">
+              <div class="table-responsive" style="width:90%; margin:0 auto; border:0px green dashed;" align="center">
                 <table class="table table-hover" id="sample_3" style="text-align:center">
                   <thead>
                     <tr>
@@ -511,7 +511,7 @@ $p=0;
      <tr id="especial">
       <th id="especial">
 
-      <div class"container" style="width:50%;">
+      <div class"container" style="width:100%;">
         <h3 style="text-align:center"><i class="fa fa-lg fa-user" style="color:#536270"></i>  Profesor <i class="glyphicon glyphicon-resize-horizontal"></i><i class="glyphicon glyphicon-book" style="color:#536270;"></i> Curso</h3>
           <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
@@ -572,8 +572,12 @@ $p=0;
             </div>
           </div>
           </div>
-
         </th>
+        <th>
+        <h3 style="text-align:center"><i class="glyphicon glyphicon-folder-open"></i> Documentación</h3>
+          <div class="tab-content" align="center"></br></br></br></br>
+        <iframe src="https://cacoo.com/diagrams/s6j0LLJfu6PMdbAr/view" width="402" height="330" frameborder="0" scrolling="no"></iframe></div>
+       </tr>
       </tr>
     </thead>
  </table>
@@ -678,7 +682,7 @@ $p=0;
                 <form name="evaluar" method="POST" action="servidor.php">
                  <div class="modal-body" style="color:black; font-size: 80%; font-weight: bold;text-align:center">
         
-                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT * FROM profesor"); ?></div></div>
+                    <div><h4 style="color: #536270">Profesor  </h4><div colspan="2" id="p" class="p" name="p" ><?php dropdown("profesor", "SELECT distinct p.id_maestro, p.nombre FROM profesor p, imparten i where i.id_prof = p.id_maestro"); ?></div></div>
                     </br>
                     <div><h4 style="color: #536270">Materia</h4>
                     <div colspan="2" id="h" class="h"></div></div>

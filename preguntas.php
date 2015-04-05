@@ -48,10 +48,10 @@
 </nav>
 
 
-
 <!-- Profesores -->
 <section id="profesores" align="center">
           <h1>Evaluación</h1>
+
             </br></br>
               <div style="width:70%; margin:0 auto; border:0px green dashed;" align="center">
                <form action="servidor.php" method="POST" name="preguntas" >
@@ -118,6 +118,11 @@ $prof=$_SESSION['prof'];
   <option value="4">Casi nunca</option>
   <option value="5"> Nunca</option>
 </select>
+</br>
+
+<div align="right">
+<span class="label label-warning">Capacidad para idear, inventar o emprender cosas</span>
+</div>
   </li>
 
 <li class="list-group-item">
@@ -183,7 +188,8 @@ $MAT=$_SESSION['mat'];
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!-- jQuery --> 
-<script src="js/jquery.js"></script> 
+<script type="text/javascript" src="js/jquery.js"></script>
+
 
 <!-- Bootstrap Core JavaScript --> 
 <script src="js/bootstrap.min.js"></script> 
