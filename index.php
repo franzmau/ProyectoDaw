@@ -574,10 +574,10 @@ $p=0;
           </div>
         </th>
         <th>
-        <h3 style="text-align:center"><i class="glyphicon glyphicon-folder-open"></i> Documentación</h3>
-          <div class="tab-content" align="center"></br></br></br></br>
+          <h3 style="text-align:center"><i class="glyphicon glyphicon-folder-open"></i> Documentación</h3>
+         <div class="tab-content" align="center"></br></br></br></br>
         <iframe src="https://cacoo.com/diagrams/s6j0LLJfu6PMdbAr/view" width="402" height="330" frameborder="0" scrolling="no"></iframe></div>
-       </tr>
+      </th>
       </tr>
     </thead>
  </table>
