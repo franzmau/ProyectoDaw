@@ -4,8 +4,8 @@ function evalValidation(){
   request=getRequestObject();
   if(request!=null)
   {
-    var url='http://localhost/REPOMA/vendor/slim/slim/index.php/validacion';
-    //var url='http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validacion';
+    // var url='http://localhost/REPOMA/vendor/slim/slim/index.php/validacion';
+    var url='http://localhost/DAW/daw/Proy2/ProyectoDaw/vendor/slim/slim/index.php/validacion';
     request.open('GET',url,true);
     request.onreadystatechange = 
     function() { 
@@ -35,8 +35,8 @@ function sesionEstado(){
   request=getRequestObject();
   if(request!=null)
   {
-    var url='http://localhost/REPOMA/vendor/slim/slim/index.php/validacion';
-    //var url='http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/validacion';
+    // var url='http://localhost/REPOMA/vendor/slim/slim/index.php/validacion';
+    var url='http://localhost/DAW/daw/Proy2/ProyectoDaw/vendor/slim/slim/index.php/validacion';
     request.open('GET',url,true);
     request.onreadystatechange = 
     function() { 
@@ -61,8 +61,9 @@ function sesionEstado(){
 function cerrarSesion()
 {
 
-  var url='http://localhost/REPOMA/vendor/slim/slim/index.php/cerrarSesion';
-  request.open('GET',url,true); 
+  // var url='http://localhost/REPOMA/vendor/slim/slim/index.php/cerrarSesion';
+  var url='http://localhost/DAW/daw/Proy2/ProyectoDaw/vendor/slim/slim/index.php/cerrarSesion';
+  
   request.send(null);
   location.reload();
 }

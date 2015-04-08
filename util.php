@@ -4,7 +4,7 @@
 
 header("Content-Type: text/html;charset=utf-8");
 function connect() {
-        $mysql = mysqli_connect("localhost","root","","ProyectoDaw2");
+        $mysql = mysqli_connect("localhost","root","7797nebur","Proyecto daw");
        // $mysql = mysqli_connect("localhost","root","7797nebur","Proyecto daw");
         mysqli_set_charset($mysql,'utf8');
         return $mysql;
@@ -94,9 +94,32 @@ function dropdown($name, $query) {
 
     $results = $mysql->query($query);
     if($name == "profesor"){
-        echo "\t<select onchange=\"poner(this.value,0)\" id=\"".$name."\" name=\"" .$name ."\">\n";    
+        echo "\t<select onchange=\"poner(this.value,0,".$name.")\" id=\"".$name."\" name=\"" .$name ."\">\n";    
     }else{
-        echo "\t<select  onchange=\"poner(this.value,1)\" id=\"".$name."\" name=\"" .$name ."\">\n";  
+        echo "\t<select  onchange=\"poner(this.value,1,".$name.")\" id=\"".$name."\" name=\"" .$name ."\">\n";  
+    }
+
+    
+    echo "\t\t <option value=0 name=0> --Selecciona uno-- </option>\n ";
+    while ($row = mysqli_fetch_array($results, MYSQLI_BOTH)) {
+        echo "\t\t<option id=\"" .$row[0] ."\" name=\"" .$row[0] ."\" value=\"" .$row[0] ."\">" .$row[1] ."</option>\n"; 
+
+    }
+    echo "\t</select>\n";
+
+    mysqli_free_result($results);
+
+    disconnect($mysql);
+}
+
+function dropdown2($name, $query) {
+    $mysql = connect();
+
+    $results = $mysql->query($query);
+    if($name == "profesor"){
+        echo "\t<select onchange=\"poner2(this.value,0,".$name.")\" id=\"".$name."\" name=\"" .$name ."\">\n";    
+    }else{
+        echo "\t<select  onchange=\"poner2(this.value,1,".$name.")\" id=\"".$name."\" name=\"" .$name ."\">\n";  
     }
 
     

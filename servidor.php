@@ -63,7 +63,7 @@ if(isset($_POST['editp'])){
 
       
     $_SESSION['edp']=1;
-header ('Location:./Index.php?s=1');
+header ('Location:./index.php?s=1');
 }
 
 

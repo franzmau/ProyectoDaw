@@ -126,6 +126,12 @@ $app->get('/insertaUsuario/:usr/:passwd/:vfy/:mail', function($usr,$password,$ve
                     
 });
 
+$app->get('/profes/:input', function($departamento){
+                      
+    dropdown("Materia", "SELECT p.id, p.dep FROM profesor p WHERE p.departamento='$departamento'");
+                    
+});
+
 $app->get('/validacion', function(){
     if(isset($_SESSION['usuario'])){
         $u=$_SESSION['usuario'];

@@ -50,8 +50,9 @@ function ElegirMateria(idMateria)
  metodoAjax("valor2="+idMateria,"recibeM.php","cuerpo");
 }
 
-function poner(p,state){
-  var x = document.getElementById("profesor").selectedIndex;
+function poner(p,state,n){
+    var x = document.getElementById(n).selectedIndex;
+  
     // var aux= document.getElementsByTagName("option")[x].value;
       //    var a= document.getElementsByTagName("option")[y].value;
       x+0;
@@ -86,8 +87,8 @@ function poner(p,state){
    if(request!=null)
    {
 
-     var url='http://localhost/REPOMA/vendor/slim/slim/index.php/materias/'+p;
-     //var url='http://localhost/DAW/daw/ProyectoDaw/vendor/slim/slim/index.php/materias/'+p;
+     // var url='http://localhost/REPOMA/vendor/slim/slim/index.php/materias/'+p;
+     var url='http://localhost/DAW/daw/Proy2/ProyectoDaw/vendor/slim/slim/index.php/materias/'+p;
      request.open('GET',url,true);
 
      request.onreadystatechange = function() { 
@@ -103,6 +104,8 @@ function poner(p,state){
                 request.send(null);
               }
             }
+
+
 
             function getRequestObject() {
   // Asynchronous objec created, handles browser DOM differences
@@ -121,4 +124,47 @@ function poner(p,state){
 }
 
 
+function poner2(p,state){
+      alert("yeah");
+    var x = document.getElementById("Dep2").selectedIndex;
+  
+    // var aux= document.getElementsByTagName("option")[x].value;
+      //    var a= document.getElementsByTagName("option")[y].value;
+      x+0;
+      if(x!=0)
+      {
+       document.getElementById('dppp').style.visibility= 'visible' ; 
+       if(state==0){
+          agregar2(x);
+       }
+      
+       
 
+ }
+
+
+ 
+ function agregar2(p){
+
+   request=getRequestObject();
+   if(request!=null)
+   {
+    alert('hola');
+
+     // var url='http://localhost/REPOMA/vendor/slim/slim/index.php/materias/'+p;
+     var url='http://localhost/DAW/daw/Proy2/ProyectoDaw/vendor/slim/slim/index.php/profes/'+p;
+     request.open('GET',url,true);
+
+     request.onreadystatechange = function() { 
+      if((request.readyState==4)){
+                    // Asynchronous response has arrived
+                    var ajaxResponse=document.getElementById('dppp');
+
+                    ajaxResponse.innerHTML=request.responseText;
+
+                    ajaxResponse.style.visibility="visible";
+                  }     
+                };
+                request.send(null);
+              }
+            }

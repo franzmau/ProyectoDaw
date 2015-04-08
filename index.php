@@ -2,7 +2,7 @@
   session_start();
   include_once("util.php");
 
-  $slimpath="http://localhost/REPOMA/vendor/slim/slim/index.php/";
+  $slimpath="http://localhost/DAW/daw/Proy2/ProyectoDaw/vendor/slim/slim/index.php/";
 
 
 
@@ -156,8 +156,12 @@ $p=0;
                         {
                             if($row[3]==$pa){
                                 $_SESSION['usuario']="".$row[2];
-                                echo '<script language="javascript">des("'.$_SESSION['usuario'].'");';
+                                if($row[2]=="administrador"){
+                                  header ('Location:./admin.php');
+                                }else{
+                                  echo '<script language="javascript">des("'.$_SESSION['usuario'].'");';
                                 echo '</script>';
+                                }
                             }else{
                                 echo '<script language="javascript">';
                                 echo 'alert("Contraseña equivocada")';
@@ -344,247 +348,6 @@ $p=0;
 </section>
 
 
-<!-- GESTOR REPOMA-->
-<section id="cursos" class="bg-light-gray" align="center">
-      <h1>Gestor REPOMA</h1>
-      </br>
-
-<!-- REGISTRAR / MODIFICAR / ELIMINAR PROFESOR -->
-<div align="center" class="table-responsive" >  
-  <table style="width:90%; height:90%" class="especial">
-    <thead id="especial">
-     <tr id="especial"><th id="especial">
-      <div class"container" style="width:100%;">
-        <h3 style="text-align:center"><i class="fa fa-lg fa-user" style="color:#536270"></i> Profesor</h3>
-          <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">
-
-            <div class="comment-tabs">
-            <ul class="nav nav-tabs" role="tablist" >
-                <li class="active"><a href="#agregarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
-                <li><a href="#modificarP" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
-            </ul>
-
-            <div class="tab-content administrador" align="center">
-              </br></br>  
-                <div class="tab-pane active" id="agregarP"> 
-                 
-                 <form name="profe" method="POST" action="servidor.php">
-                  
-                  <label>Nombre </label>
-                  <input style="width:60%" type="text" name="nombre">
-                  </br></br>
-                  
-                  <label>Departamento </label>
-                  <?php
-                  dropdown("Depa", "Select * from departamento ");
-                  ?>
-
-                  </br></br></br>
-                  <input type="submit" class="btn btn-success" style="width:35%" name="addp" value="Agregar">
-                  </form>
-
-                 </br></br>
-                </div>
-
-                <div class="tab-pane" id="modificarP">
-                    
-                    <form name="editprofe" method="POST" action="servidor.php">
-                    
-                    <label>Profesor </label>
-                    <?php 
-                    $aux=regresa1 ("SELECT count(*) FROM `profesor`","count(*)");
-                    echo '<select name ="p1" >';
-                     for($i=1;$i<=$aux;$i++){
-                    echo '<option value='.$i.'>'.$i.'</option>';}
-                    echo '</select>'?>
-                    </br>
-                      <label>Nombre </label>
-                      <input style="width:60%" type="text" name="newname">
-
-                      </br></br>
-
-                      <label>Departamento</label>
-                      <?php
-                      dropdown("Dep2", "Select * from departamento ");
-                      ?>
-
-                    </br></br></br>
-                      <input type="submit" class="btn btn-warning" style="width:35%" name="editp" value="Modificar">   
-                    </br></br>
-                    </form> 
-
-                     </br></br>
-                </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
- </th>
-
-<th id="especial"></th> <!-- ////////// -->
-
-<!-- REGISTRAR / MODIFICAR / ELIMINAR MATERIA -->
-<th id="especial">
- <div class="container" style="width:100%;">
-   <h3 style="text-align:center"><i class="glyphicon glyphicon-book" style="color:#536270;"></i> Curso</h3>
-    <div class="row">
-       <div class="col-sm-10 col-sm-offset-1">
-            <div class="comment-tabs">
-            <ul class="nav nav-tabs" role="tablist" >
-                <li class="active"><a href="#agregarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
-                <li><a href="#modificarM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
-            </ul>
-
-            <div class="tab-content administrador" align="center">
-                
-                <div class="tab-pane active" id="agregarM">
-
-                  </br></br>
-
-                  <form name="materia" method="POST" action="servidor.php">
-                    <label>Materia</label>
-
-                    <input style="width:60%" type="text" name="descripcion">
-
-                    </br></br>
-
-                    <label>Departamento</label>
-                    <?php dropdown("Dep", "Select * from departamento ");?>
-
-                  </br></br></br>
-                    <input type="submit" name="addm" class="btn btn-success" style="width:35%" value="Agregar">
-                  </form>  
-                  </br></br>
-                </div>
-
-                <div class="tab-pane" id="modificarM">
-
-
-                  <form name="editmat" method="POST" action="servidor.php">
-                   </br></br>
-
-                     <label>Curso </label>
-
-                     <?php 
-                      $aux=regresa1 ("SELECT count(*) FROM `materia`","count(*)");
-                      echo '<select name ="p2" >';
-                      for($i=1;$i<=$aux;$i++){
-                      echo '<option value='.$i.'>'.$i.'</option>';  
-                      }
-                      echo '</select>'
-                      ?>
-
-                      <label>Nombre </label>
-                      <input style="width:60%" type="text" name="newm">
-                      </br></br>
-
-                      <label>Departamento </label>
-                      <?php
-                      dropdown("Dep3", "Select * from departamento ");
-                      ?>
-
-                      </br></br></br>
-                      <input type="submit" class="btn btn-warning" style="width:35%" name="editm" value="Modificar">   
-                    </br></br>
-                  </form>           
-                  </br></br>
-                  </div>
-
-                </div>
-               </div>
-              </div>
-            </div>
-          </div>
-      </th></tr>
-    </thead>
-  </table>
- </div>  
-</br></br></br></br>
-
-
-<!-- REGISTRAR / MODIFICAR / ELIMINAR RELACION PROFESOR-CURSO -->
-<div align="center" class="table-responsive">
- <table style="width:90%; height:90%" class="especial">
-   <thead id="especial">
-     <tr id="especial">
-      <th id="especial">
-
-      <div class"container" style="width:100%;">
-        <h3 style="text-align:center"><i class="fa fa-lg fa-user" style="color:#536270"></i>  Profesor <i class="glyphicon glyphicon-resize-horizontal"></i><i class="glyphicon glyphicon-book" style="color:#536270;"></i> Curso</h3>
-          <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">
-
-            <div class="comment-tabs">
-            <ul class="nav nav-tabs" role="tablist" >
-                <li class="active"><a href="#agregarPM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Agregar</h4></a></li>
-                <li><a href="#modificarPM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Modificar</h4></a></li>
-                <li><a href="#eliminarPM" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Eliminar</h4></a></li>
-            </ul>
-
-            <div class="tab-content administrador" align="center">
-              </br></br>
-
-                <div class="tab-pane active" id="agregarPM"> 
-                 
-               </form>
-                    <br>
-                    <form name="unir" method="POST" action="servidor.php">
-                    <label>Relación </label> <br>
-                    <?php
-                    
-                    dropdown("M", "SELECT clave,descripcion FROM materia ");
-                    echo "<br><br>";
-                   dropdown("P", "SELECT id_maestro,nombre FROM profesor ");
-
-                 
-                    ?>
-                    </br></br>
-                    <input type="submit" class="btn btn-success" style="width:35%" name="addr" value="Agregar">      
-                 </br></br>
-                </form>
-                 </br></br></br>
-                </div>
-
-                <div class="tab-pane" id="modificarPM">
-                
-                </div>
-
-
-                <div class="tab-pane" id="eliminarPM">
-
-                <form name="elire" method="POST" action="servidor.php">
-                <?php 
-                  $aux=regresa1 ("SELECT count(*) FROM `imparten`","count(*)");
-                  echo"Relación </br></br>";
-                  echo '<select name ="i" >';
-                   for($i=1;$i<=$aux;$i++){
-                  echo '<option value='.$i.'>'.$i.'</option>';}echo '</select>'?>
-                  </br></br>
-                  <input type="submit" class="btn btn-danger" style="width:35%" name="editr" value="Eliminar">
-                </form>
-                 </br></br></br>
-                </div>
-
-               </div>
-              </div>
-            </div>
-          </div>
-          </div>
-        </th>
-        <th>
-          <h3 style="text-align:center"><i class="glyphicon glyphicon-folder-open"></i> Documentación</h3>
-         <div class="tab-content" align="center"></br></br></br></br>
-        <iframe src="https://cacoo.com/diagrams/s6j0LLJfu6PMdbAr/view" width="402" height="330" frameborder="0" scrolling="no"></iframe></div>
-      </th>
-      </tr>
-    </thead>
- </table>
-</div> 
-</section>
-
-
 
 
 <!--=======POP-UP OLVIDASTE TU CONTRASEÑA================================-->
@@ -603,10 +366,21 @@ $p=0;
 
                    <?php if(isset($_POST['usuarioH']) && isset($_POST['emailH'])){
                   $uH=substr(strtolower($_POST['usuarioH']),0,15); $mailH=substr(strtolower($_POST['emailH']),0,15);
-                  $url = $slimpath."EnviarContraseña/$uH/$mailH"; //Route to the REST web service
-                  $c = curl_init($url);
-                  $response = curl_exec($c);
-                  curl_close($c);}?>
+                  if(mail($mailH, $asunto, $comentario)){
+                        echo '<script language="javascript">';
+                        echo 'alert("mail sent")';
+                        echo '</script>';
+                      }else{
+                        echo '<script language="javascript">';
+                        echo 'alert("error")';
+                        echo '</script>';
+                      }
+
+                    }
+                     mysqli_free_result($results);
+                     disconnect($mysql);
+                   
+                  }?>
 
                    </div>
 
